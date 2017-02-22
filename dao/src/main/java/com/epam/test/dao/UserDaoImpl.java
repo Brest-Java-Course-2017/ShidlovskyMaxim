@@ -31,7 +31,6 @@ public class UserDaoImpl implements UserDao {
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    // FIXME move SQL scripts to properties or external files
     // String getAllUsersSql = "select user_id, login, password, description from app_user";
     // String getUserByIdSql = "select user_id, login, password, description from app_user where user_id = :p_user_id";
     // String insertUserSql = "insert into app_user (user_id, login, password, description) values (:user_id, :login, :password, :description)";
