@@ -74,7 +74,7 @@ public class UserDaoImplTest {
     }
 
     @Test
-    public void testAddUser() throws Exception {
+    public void addUser() throws Exception {
 
         LOGGER.debug("test: addUser()");
 
@@ -95,7 +95,7 @@ public class UserDaoImplTest {
     }
 
     @Test(expected = org.springframework.dao.DuplicateKeyException.class)
-    public void testAddDuplicateUser() throws Exception {
+    public void addDuplicateUser() throws Exception {
         LOGGER.debug("test: testAddDuplicateUser()");
         User xUser = new User("userLogin3", "userPassword3");
         xUser.setUserId(1);
@@ -103,7 +103,7 @@ public class UserDaoImplTest {
     }
 
     @Test
-    public void testUpdateUser() throws Exception {
+    public void updateUser() throws Exception {
         LOGGER.debug("test: updateUser()");
         User user = userDao.getUserById(1);
         user.setPassword("updated password");
@@ -119,7 +119,7 @@ public class UserDaoImplTest {
     }
 
     @Test
-    public void testDeleteUser() throws Exception {
+    public void deleteUser() throws Exception {
 
         LOGGER.debug("test: deleteUser()");
 

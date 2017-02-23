@@ -40,12 +40,12 @@ public class UserServiceImplTest {
     }
 
     @Before
-    public void beforeTest() {
+    public void beforeTest() throws Exception {
         LOGGER.error("execute: beforeTest()");
     }
 
     @After
-    public void afterTest() {
+    public void afterTest() throws Exception {
         LOGGER.error("execute: afterTest()");
     }
 
@@ -53,78 +53,45 @@ public class UserServiceImplTest {
     @Test
     public void getAllUsers() throws Exception {
         LOGGER.debug("test: getAllUsers()");
-        List<User> users =  userService.getAllUsers();
-        assertTrue(users.size() > 0);
+        List<User> users = userService.getAllUsers();
+        Assert.assertEquals("", 2, users.size());
     }
 
     @Test
     public void getUserById() throws Exception {
         LOGGER.debug("test: getUserById()");
-        User user = userService.getUserById(1);
-        assertNotNull(user);
-        assertEquals(USER_LOGIN_1, user.getLogin());
+        int testId = 1;
+        User user = userService.getUserById(testId);
+        Assert.assertNotNull(user);
+        Assert.assertTrue(user.getUserId() == testId);
     }
 
     @Test
     public void getUserByLogin() throws Exception {
         LOGGER.debug("test: getUserByLogin()");
         User user = userService.getUserByLogin(USER_LOGIN_1);
-        assertNotNull(user);
-        assertEquals((Integer) 1, user.getUserId());
+        Assert.assertNotNull(user);
+        Assert.assertNotNull(user.getLogin());
+        Assert.assertEquals(USER_LOGIN_1, user.getLogin());
     }
 
     @Test
     public void addUser() throws Exception {
         LOGGER.debug("test: addUser()");
-
-        List<User> users = userService.getAllUsers();
-        Integer quantityBefore = users.size();
-
-        Integer userId = userService.addUser(user);
-        assertNotNull(userId);
-
-        User newUser = userService.getUserById(userId);
-        assertNotNull(newUser);
-        assertTrue(user.getLogin().equals(newUser.getLogin()));
-        assertTrue(user.getPassword().equals(newUser.getPassword()));
-        assertNull(user.getDescription());
-
-        users = userService.getAllUsers();
-        assertEquals(quantityBefore + 1, users.size());
+        Assert.assertTrue(userService.addUser(user) == 1);
     }
 
     @Test
     public void updateUser() throws Exception {
         LOGGER.debug("test: updateUser()");
-        User user = userService.getUserById(1);
-        user.setPassword("updated password");
-        user.setDescription("updated description");
-
-        int count = userService.updateUser(user);
-        assertEquals(1, count);
-
-        User updatedUser = userService.getUserById(user.getUserId());
-        assertTrue(user.getLogin().equals(updatedUser.getLogin()));
-        assertTrue(user.getPassword().equals(updatedUser.getPassword()));
-        assertTrue(user.getDescription().equals(updatedUser.getDescription()));
+        user.setDescription("Updated description.");
+        Assert.assertTrue(userService.updateUser(user) == 1);
     }
 
     @Test
     public void deleteUser() throws Exception {
         LOGGER.debug("test: deleteUser()");
-
-        Integer userId = userService.addUser(user);
-        assertNotNull(userId);
-
-        List<User> users = userService.getAllUsers();
-        Integer quantityBefore = users.size();
-
-        int count = userService.deleteUser(userId);
-        assertEquals(1, count);
-
-
-        users = userService.getAllUsers();
-        assertEquals(quantityBefore - 1, users.size());
+        Assert.assertTrue(userService.deleteUser(user.getUserId()) == 1);
     }
 
 }

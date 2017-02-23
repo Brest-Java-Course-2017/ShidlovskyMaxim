@@ -48,20 +48,29 @@ public class UserServiceImpl implements UserService {
     public Integer addUser(User user) throws DataAccessException {
         Assert.notNull(user, "User should not be null.");
         LOGGER.debug("addUser(): user login = {} ", user.getLogin());
-        Assert.isNull(user.getUserId(), "User Id should be null.");
-        Assert.hasText(user.getLogin(), "User login should not be null.");
-        Assert.hasText(user.getPassword(), "User password should not be null.");
+        Assert.isNull(user.getUserId(), "User's ID should be empty.");
+        Assert.hasText(user.getLogin(), "User's login should not be empty.");
+        Assert.hasText(user.getPassword(), "User's password should not be empty.");
         //TODO: check login
         return userDao.addUser(user);
     }
 
     @Override
     public int updateUser(User user) throws DataAccessException {
-        return 0;
+        Assert.notNull(user, "User should not be null.");
+        LOGGER.debug("updateUser(): user id = {} ", user.getUserId());
+        Assert.hasText(user.getLogin(), "User's login should not be empty.");
+        Assert.hasText(user.getPassword(), "User's password should not be empty.");
+
+        return userDao.addUser(user);
     }
 
     @Override
     public int deleteUser(Integer userId) throws DataAccessException {
-        return 0;
+        Assert.notNull(userId, "User's ID should not be null.");
+        Assert.notNull(userId, "The user should exist in the database.");
+        LOGGER.debug("deleteUser(): user id = {} ", userId);
+
+        return userDao.deleteUser(userId);
     }
 }
