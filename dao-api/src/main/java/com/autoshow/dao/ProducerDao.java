@@ -40,7 +40,7 @@ public interface ProducerDao {
      * Add a producer.
      *
      * @param producer A producer.
-     * @return An amount of added records by Spring JDBC template.
+     * @return New car ID.
      * @throws DataAccessException
      */
     public Integer addProducer(Producer producer) throws DataAccessException;

@@ -1,7 +1,7 @@
 package com.autoshow.dao;
 
 import org.springframework.dao.DataAccessException;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -50,7 +50,7 @@ public interface CarDao {
      * Add a car.
      *
      * @param car A car.
-     * @return An amount of added records by Spring JDBC template.
+     * @return New car ID.
      * @throws DataAccessException
      */
     public Integer addCar(Car car) throws DataAccessException;
