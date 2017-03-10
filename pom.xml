@@ -14,6 +14,8 @@
         <module>dao-api</module>
         <module>dao</module>
         <module>database</module>
+        <module>service-api</module>
+        <module>service</module>
     </modules>
 
     <properties>
@@ -45,6 +47,16 @@
             <dependency>
                 <groupId>com.autoshow</groupId>
                 <artifactId>database</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.autoshow</groupId>
+                <artifactId>service-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.autoshow</groupId>
+                <artifactId>service</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -120,6 +132,12 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymock</artifactId>
+                <version>3.4</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

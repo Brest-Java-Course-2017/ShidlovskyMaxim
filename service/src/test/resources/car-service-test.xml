@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="classpath*:test-spring-db.xml"/>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:car-sql-queries.properties</value>
+                <value>classpath:database.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="carDao" class="com.autoshow.dao.CarDaoImpl">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <bean id="carService" class="com.autoshow.service.CarServiceImpl">
+        <property name="carDao" ref="carDao"/>
+    </bean>
+
+</beans>
