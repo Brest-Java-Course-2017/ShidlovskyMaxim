@@ -45,7 +45,7 @@ public class CarServiceImplMockTest {
 
 
     @Test
-    public void getAllCars() throws Exception {
+    public void getAllCarsTest() throws Exception {
         LOGGER.debug("mockTest: getAllCars()");
         List<Car> cars = new ArrayList<Car>();
         EasyMock.expect(mockCarDao.getAllCars()).andReturn(cars);
@@ -54,7 +54,34 @@ public class CarServiceImplMockTest {
     }
 
     @Test
-    public void getCarsForReleaseTimePeriod() throws Exception {
+    public void getCarsByProducerIdTest() throws Exception {
+        LOGGER.debug("mockTest: getCarsByProducerId()");
+        List<Car> cars = new ArrayList<Car>();
+        cars.add(car);
+        EasyMock.expect(mockCarDao.getCarsByProducerId(1)).andReturn(cars);
+        EasyMock.replay(mockCarDao);
+        List<Car> receivedCars = carService.getCarsByProducerId(1);
+        Assert.assertNotNull(receivedCars);
+        Assert.assertTrue(receivedCars.size() == 1);
+        Car testCar = receivedCars.get(0);
+        Assert.assertNotNull(testCar);
+        Assert.assertEquals(car, testCar);
+        Assert.assertEquals(car.getCarId(), testCar.getCarId());
+        Assert.assertEquals(car.getModel(), testCar.getModel());
+        Assert.assertEquals(car.getReleaseDate(), testCar.getReleaseDate());
+        Assert.assertEquals(car.getAmount(), testCar.getAmount());
+    }
+
+    @Test
+    public void getAmountOfAllTypesOfModelsOfCarsTest() throws Exception {
+        LOGGER.debug("mockTest: getAmountOfAllTypesOfModelsOfCars()");
+        EasyMock.expect(mockCarDao.getAmountOfAllTypesOfModelsOfCars()).andReturn(100);
+        EasyMock.replay(mockCarDao);
+        Assert.assertTrue(carService.getAmountOfAllTypesOfModelsOfCars() == 100);
+    }
+
+    @Test
+    public void getCarsForReleaseTimePeriodTest() throws Exception {
         LOGGER.debug("mockTest: getCarsForReleaseTimePeriod()");
         List<Car> cars = new ArrayList<Car>();
         cars.add(new Car(1, "testModel1", new Date(50, 1,1), 5));
@@ -68,7 +95,7 @@ public class CarServiceImplMockTest {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void getCarById() throws Exception {
+    public void getCarByIdTest() throws Exception {
         LOGGER.debug("mockTest: getCarById()");
         EasyMock.expect(mockCarDao.getCarById(car.getCarId()))
                 .andThrow(new UnsupportedOperationException());
@@ -77,7 +104,7 @@ public class CarServiceImplMockTest {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void getCarByModel() throws Exception {
+    public void getCarByModelTest() throws Exception {
         LOGGER.debug("mockTest: getCarByModel()");
         EasyMock.expect(mockCarDao.getCarByModel(car.getModel()))
                 .andThrow(new UnsupportedOperationException());
@@ -86,7 +113,7 @@ public class CarServiceImplMockTest {
     }
 
     @Test
-    public void addCar() throws Exception {
+    public void addCarTest() throws Exception {
         LOGGER.debug("mockTest: addCar()");
         EasyMock.expect(mockCarDao.addCar(car)).andReturn(6);
         EasyMock.replay(mockCarDao);
@@ -95,7 +122,7 @@ public class CarServiceImplMockTest {
     }
 
     @Test
-    public void updateCar() throws Exception {
+    public void updateCarTest() throws Exception {
         LOGGER.debug("mockTest: updateCar()");
         car.setModel("Updated model");
         car.setReleaseDate(new Date(80, 1, 1));
@@ -107,7 +134,7 @@ public class CarServiceImplMockTest {
     }
 
     @Test
-    public void deleteCar() throws Exception {
+    public void deleteCarTest() throws Exception {
         LOGGER.debug("mockTest: deleteCar()");
         EasyMock.expect(mockCarDao.deleteCar(1)).andReturn(1);
         EasyMock.replay(mockCarDao);

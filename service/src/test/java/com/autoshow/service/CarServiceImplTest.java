@@ -50,14 +50,34 @@ public class CarServiceImplTest {
 
 
     @Test
-    public void getAllCars() throws Exception {
+    public void getAllCarsTest() throws Exception {
         LOGGER.debug("test: getAllCars()");
         List<Car> cars = carService.getAllCars();
         Assert.assertEquals(3, cars.size());
     }
 
     @Test
-    public void getCarsForReleaseTimePeriod() throws Exception {
+    public void getCarsByProducerIdTest() throws Exception {
+        LOGGER.debug("test: getCarsByProducerId()");
+        List<Car> cars = carService.getCarsByProducerId(2);
+        Assert.assertNotNull(cars);
+        Assert.assertTrue(cars.size() == 1);
+        Car car = cars.get(0);
+        Assert.assertNotNull(car);
+        Assert.assertEquals((Integer) 3, car.getCarId());
+        Assert.assertEquals("X5", car.getModel());
+        Assert.assertEquals(new Date(103, 0, 1), car.getReleaseDate());
+        Assert.assertEquals((Integer) 30, car.getAmount());
+    }
+
+    @Test
+    public void getAmountOfAllTypesOfModelsOfCarsTest() throws Exception {
+        LOGGER.debug("test: getAmountOfAllTypesOfModelsOfCars()");
+        Assert.assertTrue(carService.getAmountOfAllTypesOfModelsOfCars() == 3);
+    }
+
+    @Test
+    public void getCarsForReleaseTimePeriodTest() throws Exception {
         LOGGER.debug("test: getCarsForReleaseTimePeriod()");
         // Time period from 2012-11-10 to 2015-11-10
         List<Car> cars = carService.getCarsForReleaseTimePeriod(new Date(112, 10, 10), new Date(115, 10, 10));
@@ -65,7 +85,7 @@ public class CarServiceImplTest {
     }
 
     @Test
-    public void getCarById() throws Exception {
+    public void getCarByIdTest() throws Exception {
         LOGGER.debug("test: getCarById()");
         int testId = 1;
         Car testCar = carService.getCarById(testId);
@@ -74,7 +94,7 @@ public class CarServiceImplTest {
     }
 
     @Test
-    public void getCarByModel() throws Exception {
+    public void getCarByModelTest() throws Exception {
         LOGGER.debug("test: getCarByModel()");
         String testModel = "X5";
         Car testCar = carService.getCarByModel(testModel);
@@ -83,14 +103,14 @@ public class CarServiceImplTest {
     }
 
     @Test
-    public void addCar() throws Exception {
+    public void addCarTest() throws Exception {
         LOGGER.debug("test: addCar()");
         carService.addCar(car);
         Assert.assertEquals(car, carService.getCarById(car.getCarId()));
     }
 
     @Test
-    public void updateCar() throws Exception {
+    public void updateCarTest() throws Exception {
         LOGGER.debug("test: updateCar()");
         Car testCar = carService.getCarById(1);
         testCar.setModel("Updated model");
@@ -102,7 +122,7 @@ public class CarServiceImplTest {
     }
 
     @Test
-    public void deleteCar() throws Exception {
+    public void deleteCarTest() throws Exception {
         LOGGER.debug("test: deleteCar()");
         int quantityBeforeDeleting = carService.getAllCars().size();
         carService.deleteCar(1);

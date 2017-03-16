@@ -19,6 +19,14 @@ public interface ProducerDao {
     public List<Producer> getAllProducers() throws DataAccessException;
 
     /**
+     * Get an amount of all producers.
+     *
+     * @return An amount of all producers.
+     * @throws DataAccessException
+     */
+    public int getAmountOfAllProducers() throws DataAccessException;
+
+    /**
      * Get a producer by ID.
      *
      * @param producerId A producer's ID.
@@ -35,6 +43,24 @@ public interface ProducerDao {
      * @throws DataAccessException
      */
     public Producer getProducerByName(String name) throws DataAccessException;
+
+    /**
+     * Get a producer by particular car.
+     *
+     * @param car A particular car.
+     * @return A producer which produced the car.
+     * @throws DataAccessException
+     */
+    public Producer getProducerByCar(Car car) throws DataAccessException;
+
+    /**
+     * Get an amount of producer's cars.
+     *
+     * @param producer A producer.
+     * @return A producer which produced cars.
+     * @throws DataAccessException
+     */
+    public int getAmountOfProducersCars(Producer producer) throws DataAccessException;
 
     /**
      * Add a producer.

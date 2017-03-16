@@ -56,6 +56,26 @@ public class CarDaoImplTest {
     }
 
     @Test
+    public void getCarsByProducerIdTest() throws Exception {
+        LOGGER.debug("test: getCarsByProducerId()");
+        List<Car> cars = carDao.getCarsByProducerId(2);
+        Assert.assertNotNull(cars);
+        Assert.assertTrue(cars.size() == 1);
+        Car car = cars.get(0);
+        Assert.assertNotNull(car);
+        Assert.assertEquals((Integer) 3, car.getCarId());
+        Assert.assertEquals("X5", car.getModel());
+        Assert.assertEquals(new Date(103, 0, 1), car.getReleaseDate());
+        Assert.assertEquals((Integer) 30, car.getAmount());
+    }
+
+    @Test
+    public void getAmountOfAllTypesOfModelsOfCarsTest() throws Exception {
+        LOGGER.debug("test: getAmountOfAllTypesOfModelsOfCars()");
+        Assert.assertTrue(carDao.getAmountOfAllTypesOfModelsOfCars() == 3);
+    }
+
+    @Test
     public void getCarsForReleaseTimePeriod() throws Exception {
         LOGGER.debug("test: getCarsForReleaseTimePeriod()");
         // Time period from 2012-11-10 to 2015-11-10

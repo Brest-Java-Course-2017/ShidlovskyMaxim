@@ -1,5 +1,6 @@
 package com.autoshow.service;
 
+import com.autoshow.dao.Car;
 import com.autoshow.dao.Producer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -49,14 +51,21 @@ public class ProducerServiceImplTest {
 
 
     @Test
-    public void getAllProducers() throws Exception {
+    public void getAllProducersTest() throws Exception {
         LOGGER.debug("test: getAllProducers()");
         List<Producer> producers = producerService.getAllProducers();
         Assert.assertEquals(2, producers.size());
     }
 
     @Test
-    public void getProducerById() throws Exception {
+    public void getAmountOfAllProducersTest() throws Exception {
+        LOGGER.debug("test: getAmountOfAllProducers()");
+        int amountOfAllProducers = producerService.getAmountOfAllProducers();
+        Assert.assertEquals(2, amountOfAllProducers);
+    }
+
+    @Test
+    public void getProducerByIdTest() throws Exception {
         LOGGER.debug("test: getProducerById()");
         int testId = 1;
         Producer testProducer = producerService.getProducerById(testId);
@@ -65,7 +74,7 @@ public class ProducerServiceImplTest {
     }
 
     @Test
-    public void getProducerByName() throws Exception {
+    public void getProducerByNameTest() throws Exception {
         LOGGER.debug("test: getProducerByName()");
         String testName = "BMW";
         Producer testProducer = producerService.getProducerByName(testName);
@@ -74,14 +83,33 @@ public class ProducerServiceImplTest {
     }
 
     @Test
-    public void addProducer() throws Exception {
+    public void getProducerByCarTest() throws Exception {
+        LOGGER.debug("test: getProducerByCar()");
+        Car car = new Car(3, "X5", new Date(103, 0, 1), 30);
+        Producer testProducer = producerService.getProducerByCar(car);
+        Assert.assertNotNull(testProducer);
+        Assert.assertEquals((Integer) 2, testProducer.getProducerId());
+        Assert.assertEquals("BMW", testProducer.getName());
+        Assert.assertEquals("Germany", testProducer.getCountry());
+    }
+
+    @Test
+    public void getAmountOfProducersCarsTest() throws Exception {
+        LOGGER.debug("test: getAmountOfProducersCars()");
+        Producer testProducer = new Producer(1, "Mercedes", "Germany");
+        int amountOfProducersCars = producerService.getAmountOfProducersCars(testProducer);
+        Assert.assertEquals(2, amountOfProducersCars);
+    }
+
+    @Test
+    public void addProducerTest() throws Exception {
         LOGGER.debug("test: addProducer()");
         producerService.addProducer(producer);
         Assert.assertEquals(producer, producerService.getProducerById(producer.getProducerId()));
     }
 
     @Test
-    public void updateProducer() throws Exception {
+    public void updateProducerTest() throws Exception {
         LOGGER.debug("test: updateProducer()");
         Producer testProducer = producerService.getProducerById(1);
         testProducer.setName("Updated name");
@@ -92,7 +120,7 @@ public class ProducerServiceImplTest {
     }
 
     @Test
-    public void deleteProducer() throws Exception {
+    public void deleteProducerTest() throws Exception {
         LOGGER.debug("test: deleteProducer()");
         int quantityBeforeDeleting = producerService.getAllProducers().size();
         producerService.deleteProducer(1);

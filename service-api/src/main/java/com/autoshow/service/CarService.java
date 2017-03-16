@@ -20,6 +20,22 @@ public interface CarService {
     public List<Car> getAllCars() throws DataAccessException;
 
     /**
+     * Get cars by producer's ID which produced the cars.
+     *
+     * @return A list of cars produced by particular producer.
+     * @throws DataAccessException
+     */
+    public List<Car> getCarsByProducerId(Integer producerId) throws DataAccessException;
+
+    /**
+     * Get an amount of all types of models of the cars.
+     *
+     * @return Amn amount of types of models.
+     * @throws DataAccessException
+     */
+    public int getAmountOfAllTypesOfModelsOfCars() throws DataAccessException;
+
+    /**
      * Get a list of cars for release time period.
      *
      * @param from  Beginning date of releasing for filtering.

@@ -38,6 +38,12 @@ public class CarDaoImpl implements CarDao {
     @Value("${car.select}")
     String getAllCarsSql;
 
+    @Value("${car.selectCarsByProducerId}")
+    String getCarsByProducerIdSql;
+
+    @Value("${car.getAmountOfAllTypesOfModelsOfCars}")
+    String getAmountOfAllTypesOfModelsOfCarsSql;
+
     @Value("${car.selectForReleaseTimePeriod}")
     String getCarsForReleaseTimePeriodSql;
 
@@ -71,6 +77,21 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
+    public List<Car> getCarsByProducerId(Integer producerId) throws DataAccessException {
+        LOGGER.debug("getCarsByProducerId({})", producerId);
+        SqlParameterSource namedParameters =
+                new MapSqlParameterSource("p_producer_id", producerId);
+        return namedParameterJdbcTemplate.query(
+                getCarsByProducerIdSql, namedParameters, new CarRowMapper());
+    }
+
+    @Override
+    public int getAmountOfAllTypesOfModelsOfCars() throws DataAccessException {
+        LOGGER.debug("getAmountOfAllTypesOfModelsOfCars()");
+        return jdbcTemplate.queryForObject(getAmountOfAllTypesOfModelsOfCarsSql, Integer.class);
+    }
+
+    @Override
     public List<Car> getCarsForReleaseTimePeriod(Date from, Date to) throws DataAccessException {
         LOGGER.debug("getCarsForReleaseTimePeriod(from {} to {})", from.toString(), to.toString());
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -83,18 +104,16 @@ public class CarDaoImpl implements CarDao {
     public Car getCarById(Integer carId) throws DataAccessException {
         LOGGER.debug("getCarById({})", carId);
         SqlParameterSource namedParameters = new MapSqlParameterSource("p_car_id", carId);
-        Car car = namedParameterJdbcTemplate.queryForObject(
+        return namedParameterJdbcTemplate.queryForObject(
                 getCarByIdSql, namedParameters, new CarRowMapper());
-        return car;
     }
 
     @Override
     public Car getCarByModel(String model) throws DataAccessException {
         LOGGER.debug("getCarByModel({})", model);
         SqlParameterSource namedParameters = new MapSqlParameterSource("p_model", model);
-        Car car = namedParameterJdbcTemplate.queryForObject(
+        return namedParameterJdbcTemplate.queryForObject(
                 getCarByModelSql, namedParameters, new CarRowMapper());
-        return car;
     }
 
     @Override

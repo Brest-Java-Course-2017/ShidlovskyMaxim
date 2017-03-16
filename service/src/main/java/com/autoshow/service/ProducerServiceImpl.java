@@ -1,5 +1,6 @@
 package com.autoshow.service;
 
+import com.autoshow.dao.Car;
 import com.autoshow.dao.Producer;
 import com.autoshow.dao.ProducerDao;
 import org.apache.logging.log4j.LogManager;
@@ -35,6 +36,12 @@ public class ProducerServiceImpl implements ProducerService {
     }
 
     @Override
+    public int getAmountOfAllProducers() throws DataAccessException {
+        LOGGER.debug("getAmountOfAllProducers()");
+        return producerDao.getAmountOfAllProducers();
+    }
+
+    @Override
     public Producer getProducerById(Integer producerId) throws DataAccessException {
         LOGGER.debug("getProducerById({})", producerId);
         Assert.notNull(producerId, "Producer's ID mustn't be null.");
@@ -47,6 +54,29 @@ public class ProducerServiceImpl implements ProducerService {
         Assert.notNull(name, "Producer's name mustn't be null.");
         Assert.hasText(name, "Producer's name must have text.");
         return producerDao.getProducerByName(name);
+    }
+
+    @Override
+    public Producer getProducerByCar(Car car) throws DataAccessException {
+        LOGGER.debug("getProducerByCar({})", car);
+        Assert.notNull(car, "Car mustn't be null.");
+        Assert.notNull(car.getCarId(), "Car's ID mustn't be null.");
+        Assert.notNull(car.getModel(), "Car's model mustn't be null.");
+        Assert.hasText(car.getModel(), "Car's model must have text.");
+        Assert.notNull(car.getReleaseDate(), "Release date mustn't be null.");
+        Assert.notNull(car.getAmount(), "Amount of cars mustn't be null.");
+        Assert.isTrue(car.getAmount() >= 0, "Amount of cars mustn't be a negative number.");
+        return producerDao.getProducerByCar(car);
+    }
+
+    @Override
+    public int getAmountOfProducersCars(Producer producer) throws DataAccessException {
+        LOGGER.debug("getAmountOfProducersCars({})", producer);
+        Assert.notNull(producer, "Producer mustn't be null.");
+        Assert.notNull(producer.getProducerId(), "Producer's ID mustn't be null.");
+        Assert.notNull(producer.getName(), "Producer's name mustn't be null.");
+        Assert.hasText(producer.getName(), "Producer's name must have text.");
+        return producerDao.getAmountOfProducersCars(producer);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.autoshow.service;
 
+import com.autoshow.dao.Car;
 import com.autoshow.dao.Producer;
 import com.autoshow.dao.ProducerDao;
 import org.apache.logging.log4j.LogManager;
@@ -14,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.easymock.EasyMock;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class ProducerServiceImplMockTest {
     }
 
     @Test
-    public void getAllProducers() throws Exception {
+    public void getAllProducersTest() throws Exception {
         LOGGER.debug("mockTest: getAllProducers()");
         List<Producer> producers = new ArrayList<Producer>();
         EasyMock.expect(mockProducerDao.getAllProducers()).andReturn(producers);
@@ -50,8 +52,16 @@ public class ProducerServiceImplMockTest {
         Assert.assertEquals(producers, producerService.getAllProducers());
     }
 
+    @Test
+    public void getAmountOfAllProducersTest() throws Exception {
+        LOGGER.debug("mockTest: getAmountOfAllProducers()");
+        EasyMock.expect(mockProducerDao.getAmountOfAllProducers()).andReturn(10);
+        EasyMock.replay(mockProducerDao);
+        Assert.assertEquals(10, producerService.getAmountOfAllProducers());
+    }
+
     @Test(expected = UnsupportedOperationException.class)
-    public void getProducerById() throws Exception {
+    public void getProducerByIdTest() throws Exception {
         LOGGER.debug("mockTest: getProducerById()");
         EasyMock.expect(mockProducerDao.getProducerById(producer.getProducerId()))
                 .andThrow(new UnsupportedOperationException());
@@ -60,7 +70,7 @@ public class ProducerServiceImplMockTest {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void getProducerByName() throws Exception {
+    public void getProducerByNameTest() throws Exception {
         LOGGER.debug("mockTest: getProducerByName()");
         EasyMock.expect(mockProducerDao.getProducerByName(producer.getName()))
                 .andThrow(new UnsupportedOperationException());
@@ -69,7 +79,28 @@ public class ProducerServiceImplMockTest {
     }
 
     @Test
-    public void addProducer() throws Exception {
+    public void getProducerByCarTest() throws Exception {
+        LOGGER.debug("mockTest: getProducerByCar()");
+        Car car = new Car(1, "testModel", new Date(100, 0, 1), 30);
+        EasyMock.expect(mockProducerDao.getProducerByCar(car)).andReturn(producer);
+        EasyMock.replay(mockProducerDao);
+        Producer receivedProducer = producerService.getProducerByCar(car);
+        Assert.assertNotNull(receivedProducer);
+        Assert.assertEquals(producer.getProducerId(), receivedProducer.getProducerId());
+        Assert.assertEquals(producer.getName(), receivedProducer.getName());
+        Assert.assertEquals(producer.getCountry(), receivedProducer.getCountry());
+    }
+
+    @Test
+    public void getAmountOfProducersCarsTest() throws Exception {
+        LOGGER.debug("mockTest: getAmountOfProducersCars()");
+        EasyMock.expect(mockProducerDao.getAmountOfProducersCars(producer)).andReturn(100);
+        EasyMock.replay(mockProducerDao);
+        Assert.assertEquals(100, producerService.getAmountOfProducersCars(producer));
+    }
+
+    @Test
+    public void addProducerTest() throws Exception {
         LOGGER.debug("mockTest: addProducer()");
         EasyMock.expect(mockProducerDao.addProducer(producer)).andReturn(6);
         EasyMock.replay(mockProducerDao);
@@ -78,7 +109,7 @@ public class ProducerServiceImplMockTest {
     }
 
     @Test
-    public void updateProducer() throws Exception {
+    public void updateProducerTest() throws Exception {
         LOGGER.debug("mockTest: updateProducer()");
         producer.setName("Updated name");
         producer.setCountry("Updated country");
@@ -89,7 +120,7 @@ public class ProducerServiceImplMockTest {
     }
 
     @Test
-    public void deleteProducer() throws Exception {
+    public void deleteProducerTest() throws Exception {
         LOGGER.debug("mockTest: deleteProducer()");
         EasyMock.expect(mockProducerDao.deleteProducer(1)).andReturn(1);
         EasyMock.replay(mockProducerDao);

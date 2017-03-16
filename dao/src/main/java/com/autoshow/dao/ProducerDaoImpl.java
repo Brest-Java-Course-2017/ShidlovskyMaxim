@@ -36,11 +36,20 @@ public class ProducerDaoImpl implements ProducerDao {
     @Value("${producer.select}")
     String getAllProducersSql;
 
+    @Value("${producer.getAmountOfAllProducers}")
+    String getAmountOfAllProducersSql;
+
     @Value("${producer.selectById}")
     String getProducerByIdSql;
 
     @Value("${producer.selectByName}")
     String getProducerByNameSql;
+
+    @Value("${producer.selectProducerByCar}")
+    String getProducerByCarSql;
+
+    @Value("${producer.getAmountOfProducersCars}")
+    String getAmountOfProducersCarsSql;
 
     @Value("${producer.insert}")
     String insertProducerSql;
@@ -66,9 +75,16 @@ public class ProducerDaoImpl implements ProducerDao {
     }
 
     @Override
+    public int getAmountOfAllProducers() throws DataAccessException {
+        LOGGER.debug("getAmountOfAllProducers()");
+        return jdbcTemplate.queryForObject(getAmountOfAllProducersSql, Integer.class);
+    }
+
+    @Override
     public Producer getProducerById(Integer producerId) throws DataAccessException {
         LOGGER.debug("getProducerById({})", producerId);
-        SqlParameterSource namedParameters = new MapSqlParameterSource("p_producer_id", producerId);
+        SqlParameterSource namedParameters =
+                new MapSqlParameterSource("p_producer_id", producerId);
         Producer producer = namedParameterJdbcTemplate.queryForObject(
                 getProducerByIdSql, namedParameters, new ProducerRowMapper());
         return producer;
@@ -77,10 +93,29 @@ public class ProducerDaoImpl implements ProducerDao {
     @Override
     public Producer getProducerByName(String name) throws DataAccessException {
         LOGGER.debug("getProducerByName({})", name);
-        SqlParameterSource namedParameters = new MapSqlParameterSource("p_producer_name", name);
+        SqlParameterSource namedParameters =
+                new MapSqlParameterSource("p_producer_name", name);
         Producer producer = namedParameterJdbcTemplate.queryForObject(
                 getProducerByNameSql, namedParameters, new ProducerRowMapper());
         return producer;
+    }
+
+    @Override
+    public Producer getProducerByCar(Car car) throws DataAccessException {
+        LOGGER.debug("getProducerByCar({})", car);
+        SqlParameterSource namedParameters =
+                new MapSqlParameterSource("p_car_id", car.getCarId());
+        return namedParameterJdbcTemplate.queryForObject(
+                getProducerByCarSql, namedParameters, new ProducerRowMapper());
+    }
+
+    @Override
+    public int getAmountOfProducersCars(Producer producer) throws DataAccessException {
+        LOGGER.debug("getAmountOfProducersCars({})", producer);
+        SqlParameterSource namedParameters =
+                new MapSqlParameterSource("p_producer_id", producer.getProducerId());
+        return namedParameterJdbcTemplate.queryForObject(
+                getAmountOfProducersCarsSql, namedParameters, Integer.class);
     }
 
     @Override

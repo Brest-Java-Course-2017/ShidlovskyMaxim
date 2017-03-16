@@ -36,6 +36,19 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public List<Car> getCarsByProducerId(Integer producerId) throws DataAccessException {
+        LOGGER.debug("getCarsByProducerId({})", producerId);
+        Assert.notNull(producerId, "Producer's ID mustn't be null.");
+        return carDao.getCarsByProducerId(producerId);
+    }
+
+    @Override
+    public int getAmountOfAllTypesOfModelsOfCars() throws DataAccessException {
+        LOGGER.debug("getAmountOfAllTypesOfModelsOfCars()");
+        return carDao.getAmountOfAllTypesOfModelsOfCars();
+    }
+
+    @Override
     public List<Car> getCarsForReleaseTimePeriod(Date from, Date to) throws DataAccessException {
         LOGGER.debug("getCarsForReleaseTimePeriod(from {} to {})", from.toString(), to.toString());
         Assert.notNull(from, "The beginning of the period mustn't be null");
