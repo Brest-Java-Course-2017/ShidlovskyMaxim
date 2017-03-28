@@ -80,12 +80,18 @@ public class ProducerControllerMockTest {
                             .andExpect(status().isOk());
     }
 
-    /*
     @Test
     public void getAmountOfAllProducers() throws Exception {
         LOGGER.debug("test: tearDown()");
+        expect(mockProducerService.getAmountOfAllProducers()).andReturn(100);
+        replay(mockProducerService);
+
+        mockMvc.perform(
+                get("/producers/amount")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
-     */
 
     @Test
     public void getProducerByIdTest() throws Exception {
@@ -100,7 +106,7 @@ public class ProducerControllerMockTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print())
-                .andExpect(status().isFound())
+                .andExpect(status().isOk())
                 .andExpect(content().string(producerString));
     }
 
@@ -117,28 +123,21 @@ public class ProducerControllerMockTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print())
-                .andExpect(status().isFound())
+                .andExpect(status().isOk())
                 .andExpect(content().string(producerString));
     }
 
-    // FIXME
-    @Ignore
     @Test
     public void getProducerByCarTest() throws Exception {
         LOGGER.debug("test: getProducerByCar()");
-        Car car = new Car(1, "testModel", new Date(100, 1, 1), 10);
-        expect(mockProducerService.getProducerByCar(anyObject(Car.class))).andReturn(producer);
+        expect(mockProducerService.getProducerByCar(anyObject(Integer.class))).andReturn(producer);
         replay(mockProducerService);
 
-        MultiValueMap<String, String> param = new LinkedMultiValueMap<String, String>();
-        String carString = new ObjectMapper().writeValueAsString(car);
-        param.add("car", carString);
-
         mockMvc.perform(
-                get("/producer/car").params(param)
+                get("/producer/car/" + 1)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isFound());
+                .andExpect(status().isOk());
     }
 
     @Test

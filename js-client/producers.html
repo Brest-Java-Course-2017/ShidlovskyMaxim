@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Автосалон</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<h1>Список компаний-производителей</h1>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Наименование компании</th>
+            <th>Страна производителя</th>
+        </tr>
+        </thead>
+        <tbody id="producerList">
+        <tr>
+            <td>example1</td>
+            <td>example2</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="mainArea">
+    <label>Количество всех компаний-производителей в БД: </label>
+    <input id="amountOfAllProducers" name="amountOfAllProducers" type="text" disabled/>
+</div>
+
+<hr/>
+
+<div class="mainArea">
+
+    <label>ID производителя:</label>
+    <input id="producerId" name="producerId" type="text" disabled/>
+
+    <label>Наименование компании:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label>Страна производителя:</label>
+    <input type="text" id="country" name="country" required>
+
+    <button id="btnSave">Сохранить</button>
+    <button id="btnClean">Очистить</button>
+
+</div>
+
+<hr />
+
+<div class="mainArea">
+
+    <h4><strong>Поиск компании-производителя по ID:</strong></h4>
+    <label>ID производителя:</label>
+    <input type="text" id="searchByIdField" name="searchByIdField" required />
+
+    <button id="btnSearchById">Найти</button>
+
+</div>
+
+<hr />
+
+<div class="mainArea">
+
+    <h4><strong>Поиск производителя по наименованию:</strong></h4>
+    <label>Наименование производителя:</label>
+    <input type="text" id="searchByNameField" name="searchByNameField" required />
+
+    <button id="btnSearchByName">Найти</button>
+
+</div>
+
+<hr/>
+
+<div class="mainArea">
+
+    <h4><strong>Поиск производителя по ID произведённой им машины:</strong></h4>
+
+    <label>ID машины:</label>
+    <input id="carId" name="carId" type="text" required/>
+
+    <button id="btnSearchByCar">Найти</button>
+</div>
+
+<hr/>
+
+<div class="mainArea">
+
+    <h4><strong>Количество машин конкретного производителя в БД:</strong></h4>
+
+    <label>ID производителя:</label>
+    <input id="searchAmountOfCarsById" name="searchAmountOfCarsById" type="text" required/>
+
+    <button id="btnSearchAmountOfProducersCars">Найти</button>
+</div>
+
+<hr />
+<hr />
+<a href="index.html">Перейти к таблице автомобилей</a>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.js"></script>
+<script src="js/producers.js"></script>
+
+</body>
+</html>

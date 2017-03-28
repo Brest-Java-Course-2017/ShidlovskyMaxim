@@ -28,7 +28,8 @@ public class ProducerServiceImplMockTest {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final Producer producer = new Producer(6, "testName2", "testCountry");
+    private static final Producer producer =
+            new Producer(null, "testName2", "testCountry");
 
     @Autowired
     private ProducerService producerService;
@@ -63,10 +64,11 @@ public class ProducerServiceImplMockTest {
     @Test(expected = UnsupportedOperationException.class)
     public void getProducerByIdTest() throws Exception {
         LOGGER.debug("mockTest: getProducerById()");
-        EasyMock.expect(mockProducerDao.getProducerById(producer.getProducerId()))
+        Producer testProducer = new Producer(1, "testName", "testCountry");
+        EasyMock.expect(mockProducerDao.getProducerById(testProducer.getProducerId()))
                 .andThrow(new UnsupportedOperationException());
         EasyMock.replay(mockProducerDao);
-        producerService.getProducerById(producer.getProducerId());
+        producerService.getProducerById(testProducer.getProducerId());
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -81,10 +83,9 @@ public class ProducerServiceImplMockTest {
     @Test
     public void getProducerByCarTest() throws Exception {
         LOGGER.debug("mockTest: getProducerByCar()");
-        Car car = new Car(1, "testModel", new Date(100, 0, 1), 30);
-        EasyMock.expect(mockProducerDao.getProducerByCar(car)).andReturn(producer);
+        EasyMock.expect(mockProducerDao.getProducerByCar(1)).andReturn(producer);
         EasyMock.replay(mockProducerDao);
-        Producer receivedProducer = producerService.getProducerByCar(car);
+        Producer receivedProducer = producerService.getProducerByCar(1);
         Assert.assertNotNull(receivedProducer);
         Assert.assertEquals(producer.getProducerId(), receivedProducer.getProducerId());
         Assert.assertEquals(producer.getName(), receivedProducer.getName());
@@ -94,18 +95,21 @@ public class ProducerServiceImplMockTest {
     @Test
     public void getAmountOfProducersCarsTest() throws Exception {
         LOGGER.debug("mockTest: getAmountOfProducersCars()");
-        EasyMock.expect(mockProducerDao.getAmountOfProducersCars(producer)).andReturn(100);
+        EasyMock.expect(mockProducerDao.getAmountOfProducersCars(1)).andReturn(100);
         EasyMock.replay(mockProducerDao);
-        Assert.assertEquals(100, producerService.getAmountOfProducersCars(producer));
+        Assert.assertEquals(100, producerService.getAmountOfProducersCars(1));
     }
 
     @Test
     public void addProducerTest() throws Exception {
         LOGGER.debug("mockTest: addProducer()");
         EasyMock.expect(mockProducerDao.addProducer(producer)).andReturn(6);
+        EasyMock.expect(mockProducerDao.getProducerById(6)).andReturn(producer);
         EasyMock.replay(mockProducerDao);
         Integer newId = producerService.addProducer(producer);
-        Assert.assertEquals(producer.getProducerId(), newId);
+        Producer addedProducer = producerService.getProducerById(newId);
+        Assert.assertEquals(producer.getName(), addedProducer.getName());
+        Assert.assertEquals(producer.getCountry(), addedProducer.getCountry());
     }
 
     @Test

@@ -60,8 +60,6 @@ public class ProducerDaoImpl implements ProducerDao {
     @Value("${producer.delete}")
     String deleteProducerSql;
 
-    @Value("${producer.deleteProducerFromBindingTable}")
-    String deleteProducerFromBindingTableSql;
 
     public ProducerDaoImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -101,19 +99,19 @@ public class ProducerDaoImpl implements ProducerDao {
     }
 
     @Override
-    public Producer getProducerByCar(Car car) throws DataAccessException {
-        LOGGER.debug("getProducerByCar({})", car);
+    public Producer getProducerByCar(Integer carId) throws DataAccessException {
+        LOGGER.debug("getProducerByCar(carId = {})", carId);
         SqlParameterSource namedParameters =
-                new MapSqlParameterSource("p_car_id", car.getCarId());
+                new MapSqlParameterSource("p_car_id", carId);
         return namedParameterJdbcTemplate.queryForObject(
                 getProducerByCarSql, namedParameters, new ProducerRowMapper());
     }
 
     @Override
-    public int getAmountOfProducersCars(Producer producer) throws DataAccessException {
-        LOGGER.debug("getAmountOfProducersCars({})", producer);
+    public int getAmountOfProducersCars(Integer producerId) throws DataAccessException {
+        LOGGER.debug("getAmountOfProducersCars(producerId = {})", producerId);
         SqlParameterSource namedParameters =
-                new MapSqlParameterSource("p_producer_id", producer.getProducerId());
+                new MapSqlParameterSource("p_producer_id", producerId);
         return namedParameterJdbcTemplate.queryForObject(
                 getAmountOfProducersCarsSql, namedParameters, Integer.class);
     }
@@ -145,7 +143,6 @@ public class ProducerDaoImpl implements ProducerDao {
         LOGGER.debug("deleteProducer(id={})", producerId);
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("p_producer_id", producerId);
-        namedParameterJdbcTemplate.update(deleteProducerFromBindingTableSql, params);
         return namedParameterJdbcTemplate.update(deleteProducerSql, params);
     }
 

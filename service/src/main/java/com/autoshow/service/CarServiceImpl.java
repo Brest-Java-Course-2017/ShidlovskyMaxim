@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -76,11 +76,12 @@ public class CarServiceImpl implements CarService {
     public Integer addCar(Car car) throws DataAccessException {
         LOGGER.debug("addCar({})", car);
         Assert.notNull(car, "Car mustn't be null.");
-        Assert.notNull(car.getCarId(), "Car's ID mustn't be null.");
+        Assert.isNull(car.getCarId(), "Car's ID must be null.");
         Assert.notNull(car.getModel(), "Car's model mustn't be null.");
         Assert.hasText(car.getModel(), "Car's model must have text.");
         Assert.notNull(car.getReleaseDate(), "Car's release date mustn't be null.");
         Assert.notNull(car.getAmount(), "An amount of cars mustn't be null.");
+        Assert.notNull(car.getProducerId(), "Producer's ID mustn't be null.");
         return carDao.addCar(car);
     }
 
@@ -92,6 +93,7 @@ public class CarServiceImpl implements CarService {
         Assert.hasText(car.getModel(), "Car's model must have text.");
         Assert.notNull(car.getReleaseDate(), "Car's release date mustn't be null.");
         Assert.notNull(car.getAmount(), "An amount of cars mustn't be null.");
+        Assert.notNull(car.getProducerId(), "Producer's ID mustn't be null.");
         return carDao.updateCar(car);
     }
 

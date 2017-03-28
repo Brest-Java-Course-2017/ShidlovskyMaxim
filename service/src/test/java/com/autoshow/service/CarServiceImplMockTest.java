@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +28,8 @@ public class CarServiceImplMockTest {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final Car car = new Car(6, "testModel", new Date(100, 1, 1), 20);
+    private static final Car car =
+            new Car(6, "testModel", new Date(100, 1, 1), 20, 1);
 
     @Autowired
     private CarService carService;
@@ -84,8 +85,8 @@ public class CarServiceImplMockTest {
     public void getCarsForReleaseTimePeriodTest() throws Exception {
         LOGGER.debug("mockTest: getCarsForReleaseTimePeriod()");
         List<Car> cars = new ArrayList<Car>();
-        cars.add(new Car(1, "testModel1", new Date(50, 1,1), 5));
-        cars.add(new Car(2, "testModel2", new Date(60, 1, 1), 5));
+        cars.add(new Car(1, "testModel1", new Date(50, 1,1), 5, 1));
+        cars.add(new Car(2, "testModel2", new Date(60, 1, 1), 5, 1));
         EasyMock.expect(mockCarDao.getCarsForReleaseTimePeriod(
                 new Date(40, 1, 1), new Date(70, 1, 1))).andReturn(cars);
         EasyMock.replay(mockCarDao);
@@ -115,10 +116,17 @@ public class CarServiceImplMockTest {
     @Test
     public void addCarTest() throws Exception {
         LOGGER.debug("mockTest: addCar()");
-        EasyMock.expect(mockCarDao.addCar(car)).andReturn(6);
+        Car testCar = new Car(null, "testModel",
+                new Date(100, 1, 1), 12, 1);
+        EasyMock.expect(mockCarDao.addCar(testCar)).andReturn(6);
+        EasyMock.expect(mockCarDao.getCarById(6)).andReturn(testCar);
         EasyMock.replay(mockCarDao);
-        Integer newId = carService.addCar(car);
-        Assert.assertEquals(car.getCarId(), newId);
+        Integer newId = carService.addCar(testCar);
+        Car adderCar = carService.getCarById(newId);
+        Assert.assertEquals(testCar.getModel(), adderCar.getModel());
+        Assert.assertEquals(testCar.getReleaseDate(), adderCar.getReleaseDate());
+        Assert.assertEquals(testCar.getAmount(), adderCar.getAmount());
+        Assert.assertEquals(testCar.getProducerId(), adderCar.getProducerId());
     }
 
     @Test
@@ -127,6 +135,7 @@ public class CarServiceImplMockTest {
         car.setModel("Updated model");
         car.setReleaseDate(new Date(80, 1, 1));
         car.setAmount(25);
+        car.setProducerId(2);
         EasyMock.expect(mockCarDao.updateCar(car)).andReturn(1);
         EasyMock.replay(mockCarDao);
         int amountOfUpdatedRecords = carService.updateCar(car);

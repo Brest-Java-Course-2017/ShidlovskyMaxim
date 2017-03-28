@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Автосалон</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<h1>Список автомобилей</h1>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Производитель</th>
+            <th>Модель</th>
+            <th>Дата выпуска</th>
+            <th>Количество в наличии</th>
+        </tr>
+        </thead>
+        <tbody id="carList">
+        <tr>
+            <td>example1</td>
+            <td>example2</td>
+            <td>example3</td>
+            <td>example4</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="mainArea">
+    <label>Количество всех моделей автомобилей в БД: </label>
+    <input id="amountOfAllCars" name="amountOfAllCars" type="text" disabled/>
+</div>
+
+<hr />
+
+<div class="mainArea">
+
+    <label>ID машины:</label>
+    <input id="carId" name="carId" type="text" disabled/>
+
+    <label>Производитель:</label>
+    <input type="text" id="producerName" name="producerName" required>
+
+    <label>Модель:</label>
+    <input type="text" id="model" name="model" required>
+
+    <label>Дата выпуска:</label>
+    <input type="text" id="releaseDate" name="releaseDate" required>
+
+    <label>Количество в наличии:</label>
+    <input type="text" id="amount" name="amount" required>
+
+    <button id="btnSave">Сохранить</button>
+    <button id="btnClean">Очистить</button>
+
+</div>
+
+<hr />
+
+<div class="mainArea">
+
+    <label>Фильтрация по дате выпуска:</label>
+    <label>c</label>
+    <input type="text" id="from" name="from" required />
+
+    <label>по</label>
+    <input type="text" id="to" name="to" required />
+
+    <button id="btnFilter">Найти</button>
+
+</div>
+
+<hr />
+
+<div class="mainArea">
+
+    <h4><strong>Поиск машины по ID:</strong></h4>
+    <label>ID автомобиля</label>
+    <input type="text" id="searchByIdField" name="searchByIdField" required />
+
+    <button id="btnSearchById">Найти</button>
+
+</div>
+
+<hr />
+
+<div class="mainArea">
+
+    <h4><strong>Поиск машины по наименованию модели:</strong></h4>
+    <label>Модель автомобиля</label>
+    <input type="text" id="searchByModelField" name="searchByModelField" required />
+
+    <button id="btnSearchByModel">Найти</button>
+
+</div>
+
+<hr />
+
+<div class="mainArea">
+
+    <h4><strong>Поиск машин по ID производителя:</strong></h4>
+    <label>ID производителя</label>
+    <input type="text" id="producerId" name="producerId" required />
+
+    <button id="btnSearchByProducerId">Найти</button>
+
+</div>
+
+<hr />
+<hr />
+<a href="producers.html">Перейти к таблице производителей</a>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.js"></script>
+<script src="js/cars.js"></script>
+
+</body>
+</html>

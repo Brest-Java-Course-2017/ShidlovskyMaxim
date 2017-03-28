@@ -14,14 +14,16 @@ public class Car {
     private String model;
     private Date releaseDate;
     private Integer amount;
+    private Integer producerId;
 
     public Car() { }
 
-    public Car(Integer carId, String model, Date releaseDate, Integer amount) {
+    public Car(Integer carId, String model, Date releaseDate, Integer amount, Integer producerId) {
         this.carId = carId;
         this.model = model;
         this.releaseDate = releaseDate;
         this.amount = amount;
+        this.producerId = producerId;
     }
 
     public Integer getCarId() {
@@ -56,6 +58,14 @@ public class Car {
         this.amount = amount;
     }
 
+    public Integer getProducerId() {
+        return producerId;
+    }
+
+    public void setProducerId(Integer producerId) {
+        this.producerId = producerId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -66,21 +76,23 @@ public class Car {
         return Objects.equals(this.carId, car.getCarId())
                 && Objects.equals(this.model, car.getModel())
                 && Objects.equals(this.releaseDate, car.getReleaseDate())
-                && Objects.equals(this.amount, car.getAmount());
+                && Objects.equals(this.amount, car.getAmount())
+                && Objects.equals(this.producerId, car.getProducerId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.carId, this.model, this.releaseDate, this.amount);
+        return Objects.hash(this.carId, this.model, this.releaseDate, this.amount, this.producerId);
     }
 
     @Override
     public String toString() {
         return "Car{" +
                 "carId=" + carId +
-                ", dao='" + model + '\'' +
+                ", model='" + model + '\'' +
                 ", releaseDate=" + releaseDate +
                 ", amount=" + amount +
+                ", producerId=" + producerId +
                 '}';
     }
 }

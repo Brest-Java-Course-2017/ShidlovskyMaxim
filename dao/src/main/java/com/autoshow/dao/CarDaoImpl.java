@@ -15,7 +15,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,10 +27,11 @@ public class CarDaoImpl implements CarDao {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    static final String CAR_ID = "car_id";
-    static final String MODEL = "model";
-    static final String RELEASE_DATE = "release_date";
-    static final String AMOUNT = "amount";
+    private static final String CAR_ID = "car_id";
+    private static final String MODEL = "model";
+    private static final String RELEASE_DATE = "release_date";
+    private static final String AMOUNT = "amount";
+    private static final String PRODUCER_ID = "producer_id";
 
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -62,8 +63,6 @@ public class CarDaoImpl implements CarDao {
     @Value("${car.delete}")
     String deleteCarSql;
 
-    @Value("${car.deleteCarFromBindingTable}")
-    String deleteCarFromBindingTableSql;
 
     public CarDaoImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -125,6 +124,7 @@ public class CarDaoImpl implements CarDao {
         params.addValue("p_model", car.getModel());
         params.addValue("p_release_date", car.getReleaseDate());
         params.addValue("p_amount", car.getAmount());
+        params.addValue("p_producer_id", car.getProducerId());
         namedParameterJdbcTemplate.update(insertCarSql, params, keyHolder);
         return keyHolder.getKey().intValue();
     }
@@ -137,6 +137,7 @@ public class CarDaoImpl implements CarDao {
         params.addValue("p_model", car.getModel());
         params.addValue("p_release_date", car.getReleaseDate());
         params.addValue("p_amount", car.getAmount());
+        params.addValue("p_producer_id", car.getProducerId());
         return namedParameterJdbcTemplate.update(updateCarSql, params);
     }
 
@@ -145,7 +146,6 @@ public class CarDaoImpl implements CarDao {
         LOGGER.debug("deleteCar({})", carId);
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("p_car_id", carId);
-        namedParameterJdbcTemplate.update(deleteCarFromBindingTableSql, params);
         return namedParameterJdbcTemplate.update(deleteCarSql, params);
     }
 
@@ -158,7 +158,8 @@ public class CarDaoImpl implements CarDao {
                     resultSet.getInt(CAR_ID),
                     resultSet.getString(MODEL),
                     resultSet.getDate(RELEASE_DATE),
-                    resultSet.getInt(AMOUNT));
+                    resultSet.getInt(AMOUNT),
+                    resultSet.getInt(PRODUCER_ID));
             return car;
         }
     }

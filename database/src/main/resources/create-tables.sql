@@ -12,13 +12,7 @@ CREATE TABLE car (
   model         VARCHAR(255) NOT NULL,
   release_date  DATE         NOT NULL,
   amount        INT          NOT NULL,
-  PRIMARY KEY (car_id)
-);
-
-DROP TABLE IF EXISTS producer_binds_car;
-CREATE TABLE producer_binds_car (
-    producer_id  INT NOT NULL,
-    car_id       INT NOT NULL,
-    FOREIGN KEY (producer_id) REFERENCES producer(producer_id),
-    FOREIGN KEY (car_id)      REFERENCES car(car_id)
+  producer_id   INT          NOT NULL,
+  PRIMARY KEY (car_id),
+  FOREIGN KEY (producer_id) REFERENCES producer(producer_id) ON DELETE CASCADE
 );

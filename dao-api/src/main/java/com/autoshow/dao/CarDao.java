@@ -1,7 +1,7 @@
 package com.autoshow.dao;
 
 import org.springframework.dao.DataAccessException;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 /**

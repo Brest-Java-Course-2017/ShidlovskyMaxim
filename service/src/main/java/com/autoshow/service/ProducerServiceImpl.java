@@ -57,33 +57,24 @@ public class ProducerServiceImpl implements ProducerService {
     }
 
     @Override
-    public Producer getProducerByCar(Car car) throws DataAccessException {
-        LOGGER.debug("getProducerByCar({})", car);
-        Assert.notNull(car, "Car mustn't be null.");
-        Assert.notNull(car.getCarId(), "Car's ID mustn't be null.");
-        Assert.notNull(car.getModel(), "Car's model mustn't be null.");
-        Assert.hasText(car.getModel(), "Car's model must have text.");
-        Assert.notNull(car.getReleaseDate(), "Release date mustn't be null.");
-        Assert.notNull(car.getAmount(), "Amount of cars mustn't be null.");
-        Assert.isTrue(car.getAmount() >= 0, "Amount of cars mustn't be a negative number.");
-        return producerDao.getProducerByCar(car);
+    public Producer getProducerByCar(Integer carId) throws DataAccessException {
+        LOGGER.debug("getProducerByCar(carId = {})", carId);
+        Assert.notNull(carId, "Car's ID mustn't be null.");
+        return producerDao.getProducerByCar(carId);
     }
 
     @Override
-    public int getAmountOfProducersCars(Producer producer) throws DataAccessException {
-        LOGGER.debug("getAmountOfProducersCars({})", producer);
-        Assert.notNull(producer, "Producer mustn't be null.");
-        Assert.notNull(producer.getProducerId(), "Producer's ID mustn't be null.");
-        Assert.notNull(producer.getName(), "Producer's name mustn't be null.");
-        Assert.hasText(producer.getName(), "Producer's name must have text.");
-        return producerDao.getAmountOfProducersCars(producer);
+    public int getAmountOfProducersCars(Integer producerId) throws DataAccessException {
+        LOGGER.debug("getAmountOfProducersCars(producerId = {})", producerId);
+        Assert.notNull(producerId, "Producer's ID mustn't be null.");
+        return producerDao.getAmountOfProducersCars(producerId);
     }
 
     @Override
     public Integer addProducer(Producer producer) throws DataAccessException {
         LOGGER.debug("addProducer({})", producer);
         Assert.notNull(producer, "Producer mustn't be null.");
-        Assert.notNull(producer.getProducerId(), "Producer's ID mustn't be null.");
+        Assert.isNull(producer.getProducerId(), "Producer's ID must be null.");
         Assert.notNull(producer.getName(), "Producer's name mustn't be null.");
         Assert.hasText(producer.getName(), "Producer's name must have text.");
         return producerDao.addProducer(producer);

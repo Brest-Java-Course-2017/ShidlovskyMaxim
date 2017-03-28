@@ -14,35 +14,33 @@ public class CarTest {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    private static final Car car = new Car();
+
     @Test
-    public void getCarId() throws Exception {
+    public void getCarIdTest() throws Exception {
         LOGGER.debug("test: getCarId()");
-        Car car = new Car();
         car.setCarId(10);
         Assert.assertEquals((Integer) 10, car.getCarId());
     }
 
     @Test
-    public void getModel() throws Exception {
+    public void getModelTest() throws Exception {
         LOGGER.debug("test: getModel()");
-        Car car = new Car();
         car.setModel("testModel");
         Assert.assertEquals("testModel", car.getModel());
     }
 
     @Test
-    public void getReleaseDate() throws Exception {
+    public void getReleaseDateTest() throws Exception {
         LOGGER.debug("test: getReleaseDate()");
-        Car car = new Car();
         Date testDate = new Date(2017, 2, 1);
         car.setReleaseDate(testDate);
         Assert.assertEquals(testDate, car.getReleaseDate());
     }
 
     @Test
-    public void getAmount() throws Exception {
+    public void getAmountTest() throws Exception {
         LOGGER.debug("test: getAmount()");
-        Car car = new Car();
         car.setAmount(100);
         Assert.assertEquals((Integer) 100, car.getAmount());
     }

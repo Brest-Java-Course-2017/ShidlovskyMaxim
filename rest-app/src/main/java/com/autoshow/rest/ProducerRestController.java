@@ -29,54 +29,43 @@ public class ProducerRestController {
         return "{  \"response\" : \"Incorrect Data Error\" }";
     }
 
-    //curl -v localhost:8088/producers
     @RequestMapping(value = "/producers", method = RequestMethod.GET)
     public @ResponseBody List<Producer> getAllProducers() {
         LOGGER.debug("getAllProducers()");
         return producerService.getAllProducers();
     }
 
-    /*
-    @RequestMapping(value = "/producers", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/producers/amount", method = RequestMethod.GET)
     public @ResponseBody int getAmountOfAllProducers() {
         LOGGER.debug("getAmountOfAllProducers()");
         return producerService.getAmountOfAllProducers();
     }
-    */
 
-    //curl -v localhost:8088/producer/1
     @RequestMapping(value = "/producer/{id}", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.FOUND)
     public @ResponseBody Producer getProducerById(@PathVariable(value = "id") Integer producerId) {
         LOGGER.debug("getProducerById({})", producerId);
         return producerService.getProducerById(producerId);
     }
 
-    //curl -v localhost:8088/producer/name/Mercedes
     @RequestMapping(value = "/producer/name/{name}", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.FOUND)
     public @ResponseBody Producer getProducerByName(@PathVariable(value = "name") String name) {
         LOGGER.debug("getProducerByName({})", name);
         return producerService.getProducerByName(name);
     }
 
-    // FIXME
-    @RequestMapping(value = "/producer/car", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.FOUND)
-    public @ResponseBody Producer getProducerByCar(@RequestBody Car car) {
-        LOGGER.debug("getProducerByCar({})", car);
-        return producerService.getProducerByCar(car);
+    @RequestMapping(value = "/producer/car/{id}", method = RequestMethod.GET)
+    public @ResponseBody Producer getProducerByCar(@PathVariable(value = "id") Integer carId) {
+        LOGGER.debug("getProducerByCar({})", carId);
+        return producerService.getProducerByCar(carId);
     }
 
-    /*
-    @RequestMapping(value = "/producer/cars")
-    public @ResponseBody int getAmountOfProducersCars(Producer producer) {
-        LOGGER.debug("getAmountOfProducersCars({})", producer);
-        return producerService.getAmountOfProducersCars(producer);
+    @RequestMapping(value = "/producer/{id}/cars/amount")
+    public @ResponseBody int getAmountOfProducersCars(@PathVariable(value = "id") Integer producerId) {
+        LOGGER.debug("getAmountOfProducerCars({})", producerId);
+        return producerService.getAmountOfProducersCars(producerId);
     }
-    */
 
-    //curl -H "Content-Type: application/json" -X POST -d '{"login":"xyz","password":"xyz"}' -v localhost:8088/producer
     @RequestMapping(value = "/producer", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public @ResponseBody Integer addProducer(@RequestBody Producer producer) {
@@ -84,7 +73,6 @@ public class ProducerRestController {
         return producerService.addProducer(producer);
     }
 
-    //curl -X PUT -v localhost:8088/producer/2/n1/c1
     @RequestMapping(value = "/producer", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     public void updateProducer(@RequestBody Producer producer) {

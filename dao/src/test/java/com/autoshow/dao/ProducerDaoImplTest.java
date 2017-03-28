@@ -9,7 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
 import java.util.List;
 
 /**
@@ -23,7 +22,7 @@ public class ProducerDaoImplTest {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private static final Producer testProducer =
-            new Producer(3, "test_name", "country1");
+            new Producer(10, "test_name", "country1");
 
     @Autowired
     ProducerDao producerDao;
@@ -59,7 +58,7 @@ public class ProducerDaoImplTest {
     @Test
     public void getAmountOfAllProducersTest() throws Exception {
         LOGGER.debug("test: getAmountOfAllProducers()");
-        Assert.assertEquals(2, producerDao.getAmountOfAllProducers());
+        Assert.assertEquals(5, producerDao.getAmountOfAllProducers());
     }
 
     @Test
@@ -81,17 +80,16 @@ public class ProducerDaoImplTest {
     @Test
     public void getProducerByCarTest() throws Exception {
         LOGGER.debug("test: getProducerByCar()");
-        Car car = new Car(3, "X5", new Date(103,1,1), 30);
-        Producer producer = producerDao.getProducerByCar(car);
+        Integer carId = 3;
+        Producer producer = producerDao.getProducerByCar(carId);
         Assert.assertEquals("BMW", producer.getName());
     }
 
     @Test
     public void getAmountOfProducersCarsTest() throws Exception {
         LOGGER.debug("test: getAmountOfProducersCars()");
-        Producer producer = new Producer();
-        producer.setProducerId(1);
-        int amountOfProducersCars = producerDao.getAmountOfProducersCars(producer);
+        Integer producerId = 1;
+        int amountOfProducersCars = producerDao.getAmountOfProducersCars(producerId);
         Assert.assertEquals(2, amountOfProducersCars);
     }
 

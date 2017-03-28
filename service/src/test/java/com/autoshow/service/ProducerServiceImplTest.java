@@ -24,7 +24,8 @@ public class ProducerServiceImplTest {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final Producer producer = new Producer(5, "testName", "testCountry");
+    private static final Producer producer =
+            new Producer(null, "testName", "testCountry");
 
     @Autowired
     ProducerService producerService;
@@ -54,14 +55,14 @@ public class ProducerServiceImplTest {
     public void getAllProducersTest() throws Exception {
         LOGGER.debug("test: getAllProducers()");
         List<Producer> producers = producerService.getAllProducers();
-        Assert.assertEquals(2, producers.size());
+        Assert.assertEquals(5, producers.size());
     }
 
     @Test
     public void getAmountOfAllProducersTest() throws Exception {
         LOGGER.debug("test: getAmountOfAllProducers()");
         int amountOfAllProducers = producerService.getAmountOfAllProducers();
-        Assert.assertEquals(2, amountOfAllProducers);
+        Assert.assertEquals(5, amountOfAllProducers);
     }
 
     @Test
@@ -85,8 +86,8 @@ public class ProducerServiceImplTest {
     @Test
     public void getProducerByCarTest() throws Exception {
         LOGGER.debug("test: getProducerByCar()");
-        Car car = new Car(3, "X5", new Date(103, 0, 1), 30);
-        Producer testProducer = producerService.getProducerByCar(car);
+        Integer carId = 3;
+        Producer testProducer = producerService.getProducerByCar(carId);
         Assert.assertNotNull(testProducer);
         Assert.assertEquals((Integer) 2, testProducer.getProducerId());
         Assert.assertEquals("BMW", testProducer.getName());
@@ -96,8 +97,8 @@ public class ProducerServiceImplTest {
     @Test
     public void getAmountOfProducersCarsTest() throws Exception {
         LOGGER.debug("test: getAmountOfProducersCars()");
-        Producer testProducer = new Producer(1, "Mercedes", "Germany");
-        int amountOfProducersCars = producerService.getAmountOfProducersCars(testProducer);
+        Integer producerId = 1;
+        int amountOfProducersCars = producerService.getAmountOfProducersCars(producerId);
         Assert.assertEquals(2, amountOfProducersCars);
     }
 
@@ -105,7 +106,9 @@ public class ProducerServiceImplTest {
     public void addProducerTest() throws Exception {
         LOGGER.debug("test: addProducer()");
         producerService.addProducer(producer);
-        Assert.assertEquals(producer, producerService.getProducerById(producer.getProducerId()));
+        Producer addedProducer = producerService.getProducerByName(producer.getName());
+        Assert.assertEquals(producer.getName(), addedProducer.getName());
+        Assert.assertEquals(producer.getCountry(), addedProducer.getCountry());
     }
 
     @Test

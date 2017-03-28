@@ -47,20 +47,20 @@ public interface ProducerDao {
     /**
      * Get a producer by particular car.
      *
-     * @param car A particular car.
+     * @param carId An ID of particular car.
      * @return A producer which produced the car.
      * @throws DataAccessException
      */
-    public Producer getProducerByCar(Car car) throws DataAccessException;
+    public Producer getProducerByCar(Integer carId) throws DataAccessException;
 
     /**
      * Get an amount of producer's cars.
      *
-     * @param producer A producer.
+     * @param producerId A producer's ID.
      * @return A producer which produced cars.
      * @throws DataAccessException
      */
-    public int getAmountOfProducersCars(Producer producer) throws DataAccessException;
+    public int getAmountOfProducersCars(Integer producerId) throws DataAccessException;
 
     /**
      * Add a producer.

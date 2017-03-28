@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import org.springframework.util.MultiValueMap;
 
 import javax.annotation.Resource;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Arrays;
 
 import static org.easymock.EasyMock.*;
@@ -47,7 +48,8 @@ public class CarControllerMockTest {
     @Autowired
     private CarService mockCarService;
 
-    private Car car = new Car(1, "testModel", new Date(100, 1, 1), 100);
+    private Car car =
+            new Car(1, "testModel", new Date(100, 1, 1), 100, 1);
 
     @Before
     public void setUp() {
@@ -67,7 +69,7 @@ public class CarControllerMockTest {
     public void getAllCarsTest() throws Exception {
         LOGGER.debug("test: getAllCars()");
         expect(mockCarService.getAllCars()).andReturn(
-                Arrays.<Car>asList(new Car(8, "m", new Date(60, 1, 1), 44)));
+                Arrays.<Car>asList(new Car(8, "m", new Date(60, 1, 1), 44, 1)));
         replay(mockCarService);
 
         mockMvc.perform(
@@ -88,16 +90,21 @@ public class CarControllerMockTest {
                 get("/producer/1/cars")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isFound());
+                .andExpect(status().isOk());
     }
 
-    /*
     @Test
     public void getAmountOfAllTypesOfModelsOfCarsTest() throws Exception {
         LOGGER.debug("test: getAmountOfAllTypesOfModelsOfCars()");
+        expect(mockCarService.getAmountOfAllTypesOfModelsOfCars()).andReturn(10);
+        replay(mockCarService);
 
+        mockMvc.perform(
+                get("/cars/amount")
+                        .accept(MediaType.APPLICATION_JSON)
+        ).andDo(print())
+                .andExpect(status().isOk());
     }
-    */
 
     @Test
     public void getCarsForReleaseTimePeriodTest() throws Exception {
@@ -107,14 +114,15 @@ public class CarControllerMockTest {
         replay(mockCarService);
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        params.add("from", new Date(50, 1, 1).toString());
-        params.add("to", new Date(60, 1, 1).toString());
+        params.add("from", "2003-01-01");
+        params.add("to", "2004-01-01");
 
         mockMvc.perform(
                 get("/car/period").params(params)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isFound());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -131,7 +139,7 @@ public class CarControllerMockTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(carString))
                 .andDo(print())
-                .andExpect(status().isFound())
+                .andExpect(status().isOk())
                 .andExpect(content().string(carString));
     }
 
@@ -149,7 +157,7 @@ public class CarControllerMockTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(carString))
                 .andDo(print())
-                .andExpect(status().isFound())
+                .andExpect(status().isOk())
                 .andExpect(content().string(carString));
     }
 
