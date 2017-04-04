@@ -26,9 +26,10 @@ public class ProducerDaoImpl implements ProducerDao {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    static final String PRODUCER_ID = "producer_id";
-    static final String PRODUCER_NAME = "producer_name";
-    static final String COUNTRY = "country";
+    private static final String PRODUCER_ID = "producer_id";
+    private static final String PRODUCER_NAME = "producer_name";
+    private static final String COUNTRY = "country";
+    private static final String AMOUNT_OF_CARS = "amount_of_cars";
 
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -48,9 +49,6 @@ public class ProducerDaoImpl implements ProducerDao {
     @Value("${producer.selectProducerByCar}")
     String getProducerByCarSql;
 
-    @Value("${producer.getAmountOfProducersCars}")
-    String getAmountOfProducersCarsSql;
-
     @Value("${producer.insert}")
     String insertProducerSql;
 
@@ -67,9 +65,9 @@ public class ProducerDaoImpl implements ProducerDao {
     }
 
     @Override
-    public List<Producer> getAllProducers() throws DataAccessException {
+    public List<ProducerWithAmount> getAllProducers() throws DataAccessException {
         LOGGER.debug("getAllProducers()");
-        return jdbcTemplate.query(getAllProducersSql, new ProducerRowMapper());
+        return jdbcTemplate.query(getAllProducersSql, new ProducerWithAmountRowMapper());
     }
 
     @Override
@@ -105,15 +103,6 @@ public class ProducerDaoImpl implements ProducerDao {
                 new MapSqlParameterSource("p_car_id", carId);
         return namedParameterJdbcTemplate.queryForObject(
                 getProducerByCarSql, namedParameters, new ProducerRowMapper());
-    }
-
-    @Override
-    public int getAmountOfProducersCars(Integer producerId) throws DataAccessException {
-        LOGGER.debug("getAmountOfProducersCars(producerId = {})", producerId);
-        SqlParameterSource namedParameters =
-                new MapSqlParameterSource("p_producer_id", producerId);
-        return namedParameterJdbcTemplate.queryForObject(
-                getAmountOfProducersCarsSql, namedParameters, Integer.class);
     }
 
     @Override
@@ -155,6 +144,20 @@ public class ProducerDaoImpl implements ProducerDao {
                     resultSet.getInt(PRODUCER_ID),
                     resultSet.getString(PRODUCER_NAME),
                     resultSet.getString(COUNTRY));
+            return producer;
+        }
+    }
+
+
+    private class ProducerWithAmountRowMapper implements RowMapper<ProducerWithAmount> {
+
+        @Override
+        public ProducerWithAmount mapRow(ResultSet resultSet, int i) throws SQLException {
+            ProducerWithAmount producer = new ProducerWithAmount(
+                    resultSet.getInt(PRODUCER_ID),
+                    resultSet.getString(PRODUCER_NAME),
+                    resultSet.getString(COUNTRY),
+                    resultSet.getInt(AMOUNT_OF_CARS));
             return producer;
         }
     }

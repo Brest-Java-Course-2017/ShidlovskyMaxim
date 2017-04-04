@@ -51,8 +51,13 @@ public class ProducerDaoImplTest {
     @Test
     public void getAllProducersTest() throws Exception {
         LOGGER.debug("test: getAllProducers()");
-        List<Producer> producers = producerDao.getAllProducers();
+        List<ProducerWithAmount> producers = producerDao.getAllProducers();
         Assert.assertTrue(producers.size() >= 2);
+        Assert.assertTrue(producers.get(0).getAmountOfCars() == 2);
+        Assert.assertTrue(producers.get(1).getAmountOfCars() == 1);
+        Assert.assertTrue(producers.get(2).getAmountOfCars() == 2);
+        Assert.assertTrue(producers.get(3).getAmountOfCars() == 2);
+        Assert.assertTrue(producers.get(4).getAmountOfCars() == 2);
     }
 
     @Test
@@ -86,17 +91,9 @@ public class ProducerDaoImplTest {
     }
 
     @Test
-    public void getAmountOfProducersCarsTest() throws Exception {
-        LOGGER.debug("test: getAmountOfProducersCars()");
-        Integer producerId = 1;
-        int amountOfProducersCars = producerDao.getAmountOfProducersCars(producerId);
-        Assert.assertEquals(2, amountOfProducersCars);
-    }
-
-    @Test
     public void addProducerTest() throws Exception {
         LOGGER.debug("test: addProducer()");
-        List<Producer> producers = producerDao.getAllProducers();
+        List<ProducerWithAmount> producers = producerDao.getAllProducers();
         Integer quantityBefore = producers.size();
 
         Integer producerId = producerDao.addProducer(testProducer);

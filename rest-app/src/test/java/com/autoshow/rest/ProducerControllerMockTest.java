@@ -2,6 +2,7 @@ package com.autoshow.rest;
 
 import com.autoshow.dao.Car;
 import com.autoshow.dao.Producer;
+import com.autoshow.dao.ProducerWithAmount;
 import com.autoshow.service.CarService;
 import com.autoshow.service.ProducerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -70,7 +71,8 @@ public class ProducerControllerMockTest {
     public void getAllProducersTest() throws Exception {
         LOGGER.debug("test: getAllProducers()");
         expect(mockProducerService.getAllProducers()).andReturn(
-                Arrays.<Producer>asList(new Producer(8, "n", "c")));
+                Arrays.<ProducerWithAmount>asList(
+                        new ProducerWithAmount(8, "n", "c", 10)));
         replay(mockProducerService);
 
         mockMvc.perform(

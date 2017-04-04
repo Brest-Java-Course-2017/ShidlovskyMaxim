@@ -2,6 +2,7 @@ package com.autoshow.service;
 
 import com.autoshow.dao.Car;
 import com.autoshow.dao.Producer;
+import com.autoshow.dao.ProducerWithAmount;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.*;
@@ -54,7 +55,7 @@ public class ProducerServiceImplTest {
     @Test
     public void getAllProducersTest() throws Exception {
         LOGGER.debug("test: getAllProducers()");
-        List<Producer> producers = producerService.getAllProducers();
+        List<ProducerWithAmount> producers = producerService.getAllProducers();
         Assert.assertEquals(5, producers.size());
     }
 
@@ -92,14 +93,6 @@ public class ProducerServiceImplTest {
         Assert.assertEquals((Integer) 2, testProducer.getProducerId());
         Assert.assertEquals("BMW", testProducer.getName());
         Assert.assertEquals("Germany", testProducer.getCountry());
-    }
-
-    @Test
-    public void getAmountOfProducersCarsTest() throws Exception {
-        LOGGER.debug("test: getAmountOfProducersCars()");
-        Integer producerId = 1;
-        int amountOfProducersCars = producerService.getAmountOfProducersCars(producerId);
-        Assert.assertEquals(2, amountOfProducersCars);
     }
 
     @Test

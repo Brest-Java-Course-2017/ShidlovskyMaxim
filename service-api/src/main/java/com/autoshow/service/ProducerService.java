@@ -2,6 +2,7 @@ package com.autoshow.service;
 
 import com.autoshow.dao.Car;
 import com.autoshow.dao.Producer;
+import com.autoshow.dao.ProducerWithAmount;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface ProducerService {
      * @return A list of producers.
      * @throws DataAccessException
      */
-    public List<Producer> getAllProducers() throws DataAccessException;
+    public List<ProducerWithAmount> getAllProducers() throws DataAccessException;
 
     /**
      * Get an amount of all producers.
@@ -53,15 +54,6 @@ public interface ProducerService {
      * @throws DataAccessException
      */
     public Producer getProducerByCar(Integer carId) throws DataAccessException;
-
-    /**
-     * Get an amount of producer's cars.
-     *
-     * @param producerId A producer's ID.
-     * @return A producer which produced cars.
-     * @throws DataAccessException
-     */
-    public int getAmountOfProducersCars(Integer producerId) throws DataAccessException;
 
     /**
      * Add a producer.

@@ -3,6 +3,7 @@ package com.autoshow.service;
 import com.autoshow.dao.Car;
 import com.autoshow.dao.Producer;
 import com.autoshow.dao.ProducerDao;
+import com.autoshow.dao.ProducerWithAmount;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class ProducerServiceImpl implements ProducerService {
     }
 
     @Override
-    public List<Producer> getAllProducers() throws DataAccessException {
+    public List<ProducerWithAmount> getAllProducers() throws DataAccessException {
         LOGGER.debug("getAllProducers()");
         return producerDao.getAllProducers();
     }
@@ -61,13 +62,6 @@ public class ProducerServiceImpl implements ProducerService {
         LOGGER.debug("getProducerByCar(carId = {})", carId);
         Assert.notNull(carId, "Car's ID mustn't be null.");
         return producerDao.getProducerByCar(carId);
-    }
-
-    @Override
-    public int getAmountOfProducersCars(Integer producerId) throws DataAccessException {
-        LOGGER.debug("getAmountOfProducersCars(producerId = {})", producerId);
-        Assert.notNull(producerId, "Producer's ID mustn't be null.");
-        return producerDao.getAmountOfProducersCars(producerId);
     }
 
     @Override

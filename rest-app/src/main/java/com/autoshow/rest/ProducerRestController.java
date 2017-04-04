@@ -2,6 +2,7 @@ package com.autoshow.rest;
 
 import com.autoshow.dao.Car;
 import com.autoshow.dao.Producer;
+import com.autoshow.dao.ProducerWithAmount;
 import com.autoshow.service.ProducerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,7 +31,7 @@ public class ProducerRestController {
     }
 
     @RequestMapping(value = "/producers", method = RequestMethod.GET)
-    public @ResponseBody List<Producer> getAllProducers() {
+    public @ResponseBody List<ProducerWithAmount> getAllProducers() {
         LOGGER.debug("getAllProducers()");
         return producerService.getAllProducers();
     }
@@ -58,12 +59,6 @@ public class ProducerRestController {
     public @ResponseBody Producer getProducerByCar(@PathVariable(value = "id") Integer carId) {
         LOGGER.debug("getProducerByCar({})", carId);
         return producerService.getProducerByCar(carId);
-    }
-
-    @RequestMapping(value = "/producer/{id}/cars/amount")
-    public @ResponseBody int getAmountOfProducersCars(@PathVariable(value = "id") Integer producerId) {
-        LOGGER.debug("getAmountOfProducerCars({})", producerId);
-        return producerService.getAmountOfProducersCars(producerId);
     }
 
     @RequestMapping(value = "/producer", method = RequestMethod.POST)

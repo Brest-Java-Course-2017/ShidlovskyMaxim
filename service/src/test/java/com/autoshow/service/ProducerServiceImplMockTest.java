@@ -3,6 +3,7 @@ package com.autoshow.service;
 import com.autoshow.dao.Car;
 import com.autoshow.dao.Producer;
 import com.autoshow.dao.ProducerDao;
+import com.autoshow.dao.ProducerWithAmount;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -47,7 +48,7 @@ public class ProducerServiceImplMockTest {
     @Test
     public void getAllProducersTest() throws Exception {
         LOGGER.debug("mockTest: getAllProducers()");
-        List<Producer> producers = new ArrayList<Producer>();
+        List<ProducerWithAmount> producers = new ArrayList<ProducerWithAmount>();
         EasyMock.expect(mockProducerDao.getAllProducers()).andReturn(producers);
         EasyMock.replay(mockProducerDao);
         Assert.assertEquals(producers, producerService.getAllProducers());
@@ -90,14 +91,6 @@ public class ProducerServiceImplMockTest {
         Assert.assertEquals(producer.getProducerId(), receivedProducer.getProducerId());
         Assert.assertEquals(producer.getName(), receivedProducer.getName());
         Assert.assertEquals(producer.getCountry(), receivedProducer.getCountry());
-    }
-
-    @Test
-    public void getAmountOfProducersCarsTest() throws Exception {
-        LOGGER.debug("mockTest: getAmountOfProducersCars()");
-        EasyMock.expect(mockProducerDao.getAmountOfProducersCars(1)).andReturn(100);
-        EasyMock.replay(mockProducerDao);
-        Assert.assertEquals(100, producerService.getAmountOfProducersCars(1));
     }
 
     @Test

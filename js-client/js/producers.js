@@ -68,14 +68,6 @@ $('#btnSearchByCar').click(function () {
     }
 });
 
-$('#btnSearchAmountOfProducersCars').click(function () {
-    if ($('#carId').val() == '') {
-        alert('The field is empty.');
-    }
-    else {
-        getAmountOfProducersCars();
-    }
-});
 
 function findAll() {
     console.log('findAll');
@@ -200,21 +192,6 @@ function getProducerByCar() {
         });
 }
 
-function getAmountOfProducersCars() {
-console.log('getAmountOfProducersCars');
-        $.ajax({
-            type: 'GET',
-            url: PRODUCER_URL + '/' + $('#searchAmountOfCarsById').val() + '/cars/amount',
-            dataType: "json",
-            success: function(data) {
-                alert('Количество автомобилей данного производителя в БД: ' + data)
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                      alert('getAmountOfProducersCars error: ' + errorThrown);
-                   }
-        });
-}
-
 function renderList(data) {
     dto = data == null ? [] : (data instanceof Array ? data : [data]);
     $('#producerList tr').remove();
@@ -229,6 +206,7 @@ function drawRow(producer) {
     row.append($("<td>" + '<a href="#" data-id="' + producer.producerId + '">'
         + producer.name + '</a></td>'));
     row.append($("<td>" + producer.country + "</td>"));
+    row.append($("<td>" + producer.amountOfCars + "</td>"));
     row.append($("<td>" + '<a href="#" data-id="' + producer.producerId + '">edit</a></td>'));
     row.append($("<td>" + '<a href="#" data-id="' + producer.producerId + '">delete</a></td>'));
 }
