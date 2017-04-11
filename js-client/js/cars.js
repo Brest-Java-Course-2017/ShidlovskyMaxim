@@ -62,6 +62,7 @@ $('#btnSearchByProducerId').click(function () {
                 $("#model").val(dto[index].model);
                 $("#releaseDate").val(dto[index].releaseDate);
                 $("#amount").val(dto[index].amount);
+                $("#producerId").val(dto[index].producerId);
              }
         });
     }
@@ -198,7 +199,7 @@ function getCarsByProducerId() {
         $.ajax({
             type: 'GET',
             contentType: 'application/json',
-            url: HOST + "/producer/" + $('#producerId').val() + "/cars",
+            url: HOST + "/producer/" + $('#searchByProducerIdField').val() + "/cars",
             dataType: "json", // data type of response
             success: renderList,
             error: function(jqXHR, textStatus, errorThrown) {
@@ -225,23 +226,29 @@ function drawRow(car) {
     row.append($("<td>" + car.amount + "</td>"));
     row.append($("<td>" + '<a href="#" data-id="' + car.carId + '">edit</a></td>'));
     row.append($("<td>" + '<a href="#" data-id="' + car.carId + '">delete</a></td>'));
+    row.append($("<td style='display:none'>" + car.producerId + "</td>"));
 }
 
 function formToJSON() {
     var carId = $('#carId').val();
-    var producerId;
-    $.ajax({
-            async: false,
-            type: 'GET',
-            url: PRODUCER_URL + '/name/' + $('#producerName').val(),
-            dataType: "json",
-            success: function (data, textStatus, jqXHR) {
-                        producerId = data.producerId;
-                     },
-            error: function (jqXHR, textStatus, errorThrown) {
-                      alert('getProducerIdByName error: ' + errorThrown);
-                   }
-        });
+    var producerId = $('#producerId').val();
+
+    if (producerId == "") {
+                $.ajax({
+                    async: false,
+                    type: 'GET',
+                    contentType: 'application/json',
+                    url: PRODUCER_URL + "/name/" + $('#producerName').val(),
+                    dataType: "json", // data type of response
+                    success: function (data, textStatus, jqXHR) {
+                                   producerId = data.producerId;
+                             },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR, textStatus, errorThrown);
+                        alert('getCarsByProducersId: ' + textStatus);
+                    }
+                });
+    }
 
     return JSON.stringify({
         "carId": carId == "" ? null : carId,
