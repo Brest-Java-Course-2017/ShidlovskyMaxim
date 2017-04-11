@@ -1,6 +1,7 @@
 package com.autoshow.service;
 
 import com.autoshow.dao.Car;
+import com.autoshow.dao.CarWithProducerName;
 import org.springframework.dao.DataAccessException;
 
 import java.util.Date;
@@ -17,7 +18,7 @@ public interface CarService {
      * @return A list of cars.
      * @throws DataAccessException
      */
-    public List<Car> getAllCars() throws DataAccessException;
+    public List<CarWithProducerName> getAllCars() throws DataAccessException;
 
     /**
      * Get cars by producer's ID which produced the cars.
@@ -25,7 +26,7 @@ public interface CarService {
      * @return A list of cars produced by particular producer.
      * @throws DataAccessException
      */
-    public List<Car> getCarsByProducerId(Integer producerId) throws DataAccessException;
+    public List<CarWithProducerName> getCarsByProducerId(Integer producerId) throws DataAccessException;
 
     /**
      * Get an amount of all types of models of the cars.
@@ -42,7 +43,8 @@ public interface CarService {
      * @param to Ending date of releasing for filtering.
      * @return A list of cars for release time period.
      */
-    public List<Car> getCarsForReleaseTimePeriod(Date from, Date to) throws DataAccessException;
+    public List<CarWithProducerName> getCarsForReleaseTimePeriod(Date from, Date to)
+            throws DataAccessException;
 
     /**
      * Get a car by ID.

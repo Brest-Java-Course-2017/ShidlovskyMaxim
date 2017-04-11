@@ -1,6 +1,7 @@
 package com.autoshow.rest;
 
 import com.autoshow.dao.Car;
+import com.autoshow.dao.CarWithProducerName;
 import com.autoshow.service.CarService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,13 +32,13 @@ public class CarRestController {
     }
 
     @RequestMapping(value = "/cars", method = RequestMethod.GET)
-    public @ResponseBody List<Car> getAllCars() {
+    public @ResponseBody List<CarWithProducerName> getAllCars() {
         LOGGER.debug("getAllCars()");
         return carService.getAllCars();
     }
 
     @RequestMapping(value = "/producer/{producerId}/cars", method = RequestMethod.GET)
-    public @ResponseBody List<Car> getCarsByProducerId(
+    public @ResponseBody List<CarWithProducerName> getCarsByProducerId(
             @PathVariable(value = "producerId") Integer producerId) {
         LOGGER.debug("getCarsByProducerId({})", producerId);
         return carService.getCarsByProducerId(producerId);
@@ -50,7 +51,7 @@ public class CarRestController {
     }
 
     @RequestMapping(value = "/car/period", method = RequestMethod.GET)
-    public @ResponseBody List<Car> getCarsForReleaseTimePeriod(
+    public @ResponseBody List<CarWithProducerName> getCarsForReleaseTimePeriod(
             @RequestParam(name = "from") @DateTimeFormat(pattern = "yyyy-MM-dd") Date from,
             @RequestParam(name = "to") @DateTimeFormat(pattern = "yyyy-MM-dd") Date to) {
         LOGGER.debug("getCarsForReleaseTimePeriod(from {} to {})", from, to);

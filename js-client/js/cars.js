@@ -58,7 +58,7 @@ $('#btnSearchByProducerId').click(function () {
         $.each(dto, function (index) {
              if (dto[index].carId == selectedCarId) {
                 $("#carId").val(selectedCarId);
-                $("#producerName").val($("#producer-car-" + dto[index].carId).text());
+                $("#producerName").val(dto[index].producerName);
                 $("#model").val(dto[index].model);
                 $("#releaseDate").val(dto[index].releaseDate);
                 $("#amount").val(dto[index].amount);
@@ -219,18 +219,7 @@ function renderList(data) {
 function drawRow(car) {
     var row = $("<tr />")
     $("#carList").append(row);
-    $.ajax({
-            async: false,
-            type: 'GET',
-            url: PRODUCER_URL + '/' + car.producerId,
-            dataType: "json",
-            success: function (data, textStatus, jqXHR) {
-                        row.append($("<td id='producer-car-" + car.carId + "'>" + data.name + "</td>"));
-                     },
-            error: function (jqXHR, textStatus, errorThrown) {
-                      alert('getProducerNameById error: ' + errorThrown);
-                   }
-    });
+    row.append($("<td>" + car.producerName + "</td>"));
     row.append($("<td>" + '<a href="#" data-id="' + car.carId + '">' + car.model + '</a></td>'));
     row.append($("<td>" + car.releaseDate + "</td>"));
     row.append($("<td>" + car.amount + "</td>"));

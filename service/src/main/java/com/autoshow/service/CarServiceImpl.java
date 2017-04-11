@@ -2,6 +2,7 @@ package com.autoshow.service;
 
 import com.autoshow.dao.Car;
 import com.autoshow.dao.CarDao;
+import com.autoshow.dao.CarWithProducerName;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,13 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<Car> getAllCars() throws DataAccessException {
+    public List<CarWithProducerName> getAllCars() throws DataAccessException {
         LOGGER.debug("getAllCars()");
         return carDao.getAllCars();
     }
 
     @Override
-    public List<Car> getCarsByProducerId(Integer producerId) throws DataAccessException {
+    public List<CarWithProducerName> getCarsByProducerId(Integer producerId) throws DataAccessException {
         LOGGER.debug("getCarsByProducerId({})", producerId);
         Assert.notNull(producerId, "Producer's ID mustn't be null.");
         return carDao.getCarsByProducerId(producerId);
@@ -49,7 +50,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<Car> getCarsForReleaseTimePeriod(Date from, Date to) throws DataAccessException {
+    public List<CarWithProducerName> getCarsForReleaseTimePeriod(Date from, Date to) throws DataAccessException {
         LOGGER.debug("getCarsForReleaseTimePeriod(from {} to {})", from.toString(), to.toString());
         Assert.notNull(from, "The beginning of the period mustn't be null");
         Assert.notNull(to, "The end of the period mustn't be null");

@@ -1,6 +1,7 @@
 package com.autoshow.service;
 
 import com.autoshow.dao.Car;
+import com.autoshow.dao.CarWithProducerName;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.*;
@@ -53,22 +54,23 @@ public class CarServiceImplTest {
     @Test
     public void getAllCarsTest() throws Exception {
         LOGGER.debug("test: getAllCars()");
-        List<Car> cars = carService.getAllCars();
+        List<CarWithProducerName> cars = carService.getAllCars();
         Assert.assertEquals(9, cars.size());
     }
 
     @Test
     public void getCarsByProducerIdTest() throws Exception {
         LOGGER.debug("test: getCarsByProducerId()");
-        List<Car> cars = carService.getCarsByProducerId(2);
+        List<CarWithProducerName> cars = carService.getCarsByProducerId(2);
         Assert.assertNotNull(cars);
         Assert.assertTrue(cars.size() == 1);
-        Car car = cars.get(0);
+        CarWithProducerName car = cars.get(0);
         Assert.assertNotNull(car);
         Assert.assertEquals((Integer) 3, car.getCarId());
         Assert.assertEquals("X5", car.getModel());
         Assert.assertEquals(new Date(106, 0, 1), car.getReleaseDate());
         Assert.assertEquals((Integer) 30, car.getAmount());
+        Assert.assertEquals("BMW", car.getProducerName());
     }
 
     @Test
@@ -81,9 +83,9 @@ public class CarServiceImplTest {
     public void getCarsForReleaseTimePeriodTest() throws Exception {
         LOGGER.debug("test: getCarsForReleaseTimePeriod()");
         // Time period from 2012-11-10 to 2015-11-10
-        List<Car> cars = carService.getCarsForReleaseTimePeriod(
+        List<CarWithProducerName> cars = carService.getCarsForReleaseTimePeriod(
                 new Date(112, 10, 10), new Date(115, 10, 10));
-        Assert.assertEquals(1, cars.size());
+        Assert.assertEquals(1, cars.size( ));
     }
 
     @Test

@@ -32,6 +32,7 @@ public class CarDaoImpl implements CarDao {
     private static final String RELEASE_DATE = "release_date";
     private static final String AMOUNT = "amount";
     private static final String PRODUCER_ID = "producer_id";
+    private static final String PRODUCER_NAME = "producer_name";
 
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -70,18 +71,18 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public List<Car> getAllCars() throws DataAccessException {
+    public List<CarWithProducerName> getAllCars() throws DataAccessException {
         LOGGER.debug("getAllCars()");
-        return jdbcTemplate.query(getAllCarsSql, new CarRowMapper());
+        return jdbcTemplate.query(getAllCarsSql, new CarWithProducerNameRowMapper());
     }
 
     @Override
-    public List<Car> getCarsByProducerId(Integer producerId) throws DataAccessException {
+    public List<CarWithProducerName> getCarsByProducerId(Integer producerId) throws DataAccessException {
         LOGGER.debug("getCarsByProducerId({})", producerId);
         SqlParameterSource namedParameters =
                 new MapSqlParameterSource("p_producer_id", producerId);
         return namedParameterJdbcTemplate.query(
-                getCarsByProducerIdSql, namedParameters, new CarRowMapper());
+                getCarsByProducerIdSql, namedParameters, new CarWithProducerNameRowMapper());
     }
 
     @Override
@@ -91,12 +92,13 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public List<Car> getCarsForReleaseTimePeriod(Date from, Date to) throws DataAccessException {
+    public List<CarWithProducerName> getCarsForReleaseTimePeriod(Date from, Date to) throws DataAccessException {
         LOGGER.debug("getCarsForReleaseTimePeriod(from {} to {})", from.toString(), to.toString());
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("p_from", from);
         params.addValue("p_to", to);
-        return namedParameterJdbcTemplate.query(getCarsForReleaseTimePeriodSql, params, new CarRowMapper());
+        return namedParameterJdbcTemplate.query(getCarsForReleaseTimePeriodSql, params,
+                new CarWithProducerNameRowMapper());
     }
 
     @Override
@@ -160,6 +162,21 @@ public class CarDaoImpl implements CarDao {
                     resultSet.getDate(RELEASE_DATE),
                     resultSet.getInt(AMOUNT),
                     resultSet.getInt(PRODUCER_ID));
+            return car;
+        }
+    }
+
+    private class CarWithProducerNameRowMapper implements RowMapper<CarWithProducerName> {
+
+        @Override
+        public CarWithProducerName mapRow(ResultSet resultSet, int i) throws SQLException {
+            CarWithProducerName car = new CarWithProducerName(
+                    resultSet.getInt(CAR_ID),
+                    resultSet.getString(MODEL),
+                    resultSet.getDate(RELEASE_DATE),
+                    resultSet.getInt(AMOUNT),
+                    resultSet.getInt(PRODUCER_ID),
+                    resultSet.getString(PRODUCER_NAME));
             return car;
         }
     }

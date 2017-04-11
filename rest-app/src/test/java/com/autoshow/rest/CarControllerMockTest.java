@@ -1,6 +1,7 @@
 package com.autoshow.rest;
 
 import com.autoshow.dao.Car;
+import com.autoshow.dao.CarWithProducerName;
 import com.autoshow.service.CarService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
@@ -50,6 +51,9 @@ public class CarControllerMockTest {
 
     private Car car =
             new Car(1, "testModel", new Date(100, 1, 1), 100, 1);
+    private CarWithProducerName carWithProducerName =
+            new CarWithProducerName(8, "m", new Date(60, 1, 1),
+                    44, 1, "n");
 
     @Before
     public void setUp() {
@@ -69,7 +73,7 @@ public class CarControllerMockTest {
     public void getAllCarsTest() throws Exception {
         LOGGER.debug("test: getAllCars()");
         expect(mockCarService.getAllCars()).andReturn(
-                Arrays.<Car>asList(new Car(8, "m", new Date(60, 1, 1), 44, 1)));
+                Arrays.<CarWithProducerName>asList(carWithProducerName));
         replay(mockCarService);
 
         mockMvc.perform(
@@ -83,7 +87,7 @@ public class CarControllerMockTest {
     public void getCarsByProducerIdTest() throws Exception {
         LOGGER.debug("test: getCarsByProducerId()");
         expect(mockCarService.getCarsByProducerId(anyObject(Integer.class)))
-                .andReturn(Arrays.<Car>asList(car));
+                .andReturn(Arrays.<CarWithProducerName>asList(carWithProducerName));
         replay(mockCarService);
 
         mockMvc.perform(
@@ -110,7 +114,7 @@ public class CarControllerMockTest {
     public void getCarsForReleaseTimePeriodTest() throws Exception {
         LOGGER.debug("test: getCarsForReleaseTimePeriod()");
         expect(mockCarService.getCarsForReleaseTimePeriod(anyObject(Date.class), anyObject(Date.class)))
-                .andReturn(Arrays.<Car>asList(car));
+                .andReturn(Arrays.<CarWithProducerName>asList(carWithProducerName));
         replay(mockCarService);
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();

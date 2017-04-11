@@ -2,6 +2,7 @@ package com.autoshow.service;
 
 import com.autoshow.dao.Car;
 import com.autoshow.dao.CarDao;
+import com.autoshow.dao.CarWithProducerName;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.easymock.EasyMock;
@@ -48,7 +49,7 @@ public class CarServiceImplMockTest {
     @Test
     public void getAllCarsTest() throws Exception {
         LOGGER.debug("mockTest: getAllCars()");
-        List<Car> cars = new ArrayList<Car>();
+        List<CarWithProducerName> cars = new ArrayList<CarWithProducerName>();
         EasyMock.expect(mockCarDao.getAllCars()).andReturn(cars);
         EasyMock.replay(mockCarDao);
         Assert.assertEquals(cars, carService.getAllCars());
@@ -57,14 +58,16 @@ public class CarServiceImplMockTest {
     @Test
     public void getCarsByProducerIdTest() throws Exception {
         LOGGER.debug("mockTest: getCarsByProducerId()");
-        List<Car> cars = new ArrayList<Car>();
+        List<CarWithProducerName> cars = new ArrayList<CarWithProducerName>();
+        CarWithProducerName car = new CarWithProducerName(6, "testModel",
+                new Date(100, 1, 1),20, 1, "testProducerName");
         cars.add(car);
         EasyMock.expect(mockCarDao.getCarsByProducerId(1)).andReturn(cars);
         EasyMock.replay(mockCarDao);
-        List<Car> receivedCars = carService.getCarsByProducerId(1);
+        List<CarWithProducerName> receivedCars = carService.getCarsByProducerId(1);
         Assert.assertNotNull(receivedCars);
         Assert.assertTrue(receivedCars.size() == 1);
-        Car testCar = receivedCars.get(0);
+        CarWithProducerName testCar = receivedCars.get(0);
         Assert.assertNotNull(testCar);
         Assert.assertEquals(car, testCar);
         Assert.assertEquals(car.getCarId(), testCar.getCarId());
@@ -84,13 +87,15 @@ public class CarServiceImplMockTest {
     @Test
     public void getCarsForReleaseTimePeriodTest() throws Exception {
         LOGGER.debug("mockTest: getCarsForReleaseTimePeriod()");
-        List<Car> cars = new ArrayList<Car>();
-        cars.add(new Car(1, "testModel1", new Date(50, 1,1), 5, 1));
-        cars.add(new Car(2, "testModel2", new Date(60, 1, 1), 5, 1));
+        List<CarWithProducerName> cars = new ArrayList<CarWithProducerName>();
+        cars.add(new CarWithProducerName(1, "testModel1", new Date(50, 1,1),
+                5, 1, "testProducerName1"));
+        cars.add(new CarWithProducerName(2, "testModel2", new Date(60, 1, 1),
+                5, 1, "testProducerName2"));
         EasyMock.expect(mockCarDao.getCarsForReleaseTimePeriod(
                 new Date(40, 1, 1), new Date(70, 1, 1))).andReturn(cars);
         EasyMock.replay(mockCarDao);
-        List<Car> testCars = carService.getCarsForReleaseTimePeriod(
+        List<CarWithProducerName> testCars = carService.getCarsForReleaseTimePeriod(
                 new Date(40, 1, 1), new Date(70, 1, 1));
         Assert.assertEquals(cars, testCars);
     }

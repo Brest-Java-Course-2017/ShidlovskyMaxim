@@ -52,23 +52,24 @@ public class CarDaoImplTest {
     @Test
     public void getAllCarsTest() throws Exception {
         LOGGER.debug("test: getAllCars()");
-        List<Car> cars = carDao.getAllCars();
+        List<CarWithProducerName> cars = carDao.getAllCars();
         Assert.assertTrue(cars.size() >= 9);
     }
 
     @Test
     public void getCarsByProducerIdTest() throws Exception {
         LOGGER.debug("test: getCarsByProducerId()");
-        List<Car> cars = carDao.getCarsByProducerId(2);
+        List<CarWithProducerName> cars = carDao.getCarsByProducerId(2);
         Assert.assertNotNull(cars);
         Assert.assertTrue(cars.size() == 1);
-        Car car = cars.get(0);
+        CarWithProducerName car = cars.get(0);
         Assert.assertNotNull(car);
         Assert.assertEquals((Integer) 3, car.getCarId());
         Assert.assertEquals("X5", car.getModel());
         Assert.assertEquals(new Date(106, 0, 1), car.getReleaseDate());
         Assert.assertEquals((Integer) 30, car.getAmount());
         Assert.assertEquals((Integer) 2, car.getProducerId());
+        Assert.assertEquals("BMW", car.getProducerName());
     }
 
     @Test
@@ -81,7 +82,7 @@ public class CarDaoImplTest {
     public void getCarsForReleaseTimePeriod() throws Exception {
         LOGGER.debug("test: getCarsForReleaseTimePeriod()");
         // Time period from 2012-11-10 to 2015-11-10
-        List<Car> cars = carDao.getCarsForReleaseTimePeriod(
+        List<CarWithProducerName> cars = carDao.getCarsForReleaseTimePeriod(
                 new Date(112, 10, 10), new Date(115, 10, 10));
         Assert.assertEquals(1, cars.size());
     }
@@ -105,7 +106,7 @@ public class CarDaoImplTest {
     @Test
     public void addCarTest() throws Exception {
         LOGGER.debug("test: addCar()");
-        List<Car> cars = carDao.getAllCars();
+        List<CarWithProducerName> cars = carDao.getAllCars();
         Integer quantityBefore = cars.size();
 
         Integer carId = carDao.addCar(testCar);
