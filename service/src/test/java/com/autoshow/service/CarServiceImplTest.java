@@ -92,7 +92,7 @@ public class CarServiceImplTest {
     public void getCarByIdTest() throws Exception {
         LOGGER.debug("test: getCarById()");
         int testId = 1;
-        Car testCar = carService.getCarById(testId);
+        CarWithProducerName testCar = carService.getCarById(testId);
         Assert.assertNotNull(testCar);
         Assert.assertTrue(testCar.getCarId() == testId);
     }
@@ -101,7 +101,7 @@ public class CarServiceImplTest {
     public void getCarByModelTest() throws Exception {
         LOGGER.debug("test: getCarByModel()");
         String testModel = "X5";
-        Car testCar = carService.getCarByModel(testModel);
+        CarWithProducerName testCar = carService.getCarByModel(testModel);
         Assert.assertNotNull(testCar);
         Assert.assertTrue(testCar.getModel().equals(testModel));
     }
@@ -112,7 +112,7 @@ public class CarServiceImplTest {
         Car testCar = new Car(null, "testModel",
                 new Date(100, 1, 1), 10, 1);
         Integer newId = carService.addCar(testCar);
-        Car addedCar = carService.getCarById(newId);
+        CarWithProducerName addedCar = carService.getCarById(newId);
         Assert.assertEquals(testCar.getModel(), addedCar.getModel());
         Assert.assertEquals(testCar.getReleaseDate(), addedCar.getReleaseDate());
         Assert.assertEquals(testCar.getAmount(), addedCar.getAmount());
@@ -122,14 +122,19 @@ public class CarServiceImplTest {
     @Test
     public void updateCarTest() throws Exception {
         LOGGER.debug("test: updateCar()");
-        Car testCar = carService.getCarById(1);
+        CarWithProducerName testCar = carService.getCarById(1);
         testCar.setModel("Updated model");
         testCar.setReleaseDate(new Date(108, 1, 1));
         testCar.setAmount(555);
         testCar.setProducerId(2);
-        carService.updateCar(testCar);
-        Car updatedCar = carService.getCarById(1);
-        Assert.assertEquals(testCar, updatedCar);
+        Car testForUpdateCar = new Car(testCar.getCarId(), testCar.getModel(),
+                testCar.getReleaseDate(), testCar.getAmount(), testCar.getProducerId());
+        carService.updateCar(testForUpdateCar);
+        CarWithProducerName updatedCar = carService.getCarById(1);
+        Assert.assertEquals(testCar.getModel(), updatedCar.getModel());
+        Assert.assertEquals(testCar.getReleaseDate(), updatedCar.getReleaseDate());
+        Assert.assertEquals(testCar.getAmount(), updatedCar.getAmount());
+        Assert.assertEquals(testCar.getProducerId(), updatedCar.getProducerId());
     }
 
     @Test

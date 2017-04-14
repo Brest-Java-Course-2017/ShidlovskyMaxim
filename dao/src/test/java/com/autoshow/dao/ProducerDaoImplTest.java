@@ -69,25 +69,28 @@ public class ProducerDaoImplTest {
     @Test
     public void getProducerByIdTest() throws Exception {
         LOGGER.debug("test: getProducerById()");
-        Producer producer = producerDao.getProducerById(1);
+        ProducerWithAmount producer = producerDao.getProducerById(1);
         Assert.assertNotNull(producer);
         Assert.assertEquals("Mercedes", producer.getName());
+        Assert.assertEquals((Integer) 2, producer.getAmountOfCars());
     }
 
     @Test
     public void getProducerByNameTest() throws Exception {
         LOGGER.debug("test: getProducerByName()");
-        Producer producer = producerDao.getProducerByName("BMW");
+        ProducerWithAmount producer = producerDao.getProducerByName("BMW");
         Assert.assertNotNull(producer);
         Assert.assertEquals((Integer) 2, producer.getProducerId());
+        Assert.assertEquals((Integer) 1, producer.getAmountOfCars());
     }
 
     @Test
     public void getProducerByCarTest() throws Exception {
         LOGGER.debug("test: getProducerByCar()");
         Integer carId = 3;
-        Producer producer = producerDao.getProducerByCar(carId);
+        ProducerWithAmount producer = producerDao.getProducerByCar(carId);
         Assert.assertEquals("BMW", producer.getName());
+        Assert.assertEquals((Integer) 1, producer.getAmountOfCars());
     }
 
     @Test
@@ -99,7 +102,7 @@ public class ProducerDaoImplTest {
         Integer producerId = producerDao.addProducer(testProducer);
         Assert.assertNotNull(producerId);
 
-        Producer newProducer = producerDao.getProducerById(producerId);
+        ProducerWithAmount newProducer = producerDao.getProducerById(producerId);
         Assert.assertNotNull(newProducer);
         Assert.assertTrue(testProducer.getName().equals(newProducer.getName()));
         Assert.assertTrue(testProducer.getCountry().equals(newProducer.getCountry()));
@@ -111,16 +114,18 @@ public class ProducerDaoImplTest {
     @Test
     public void updateProducerTest() throws Exception {
         LOGGER.debug("test: updateProducer()");
-        Producer producer = producerDao.getProducerById(1);
-        producer.setName("Updated name");
-        producer.setCountry("Updated country");
+        ProducerWithAmount producer = producerDao.getProducerById(1);
+        Producer testProducer = new Producer();
+        testProducer.setProducerId(producer.getProducerId());
+        testProducer.setName("Updated name");
+        testProducer.setCountry("Updated country");
 
-        Integer amountOfAddedRecords = producerDao.updateProducer(producer);
-        Assert.assertEquals(1, amountOfAddedRecords.intValue());
+        Integer amountOfUpdatedRecords = producerDao.updateProducer(testProducer);
+        Assert.assertEquals(1, amountOfUpdatedRecords.intValue());
 
-        Producer updatedProducer = producerDao.getProducerById(producer.getProducerId());
-        Assert.assertEquals(producer.getName(), updatedProducer.getName());
-        Assert.assertEquals(producer.getCountry(), updatedProducer.getCountry());
+        ProducerWithAmount updatedProducer = producerDao.getProducerById(producer.getProducerId());
+        Assert.assertEquals(testProducer.getName(), updatedProducer.getName());
+        Assert.assertEquals(testProducer.getCountry(), updatedProducer.getCountry());
     }
 
     @Test

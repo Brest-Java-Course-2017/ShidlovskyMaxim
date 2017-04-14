@@ -102,19 +102,19 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public Car getCarById(Integer carId) throws DataAccessException {
+    public CarWithProducerName getCarById(Integer carId) throws DataAccessException {
         LOGGER.debug("getCarById({})", carId);
         SqlParameterSource namedParameters = new MapSqlParameterSource("p_car_id", carId);
         return namedParameterJdbcTemplate.queryForObject(
-                getCarByIdSql, namedParameters, new CarRowMapper());
+                getCarByIdSql, namedParameters, new CarWithProducerNameRowMapper());
     }
 
     @Override
-    public Car getCarByModel(String model) throws DataAccessException {
+    public CarWithProducerName getCarByModel(String model) throws DataAccessException {
         LOGGER.debug("getCarByModel({})", model);
         SqlParameterSource namedParameters = new MapSqlParameterSource("p_model", model);
         return namedParameterJdbcTemplate.queryForObject(
-                getCarByModelSql, namedParameters, new CarRowMapper());
+                getCarByModelSql, namedParameters, new CarWithProducerNameRowMapper());
     }
 
     @Override

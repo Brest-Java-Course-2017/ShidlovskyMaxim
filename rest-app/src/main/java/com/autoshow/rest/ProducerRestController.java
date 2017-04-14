@@ -44,19 +44,19 @@ public class ProducerRestController {
     }
 
     @RequestMapping(value = "/producer/{id}", method = RequestMethod.GET)
-    public @ResponseBody Producer getProducerById(@PathVariable(value = "id") Integer producerId) {
+    public @ResponseBody ProducerWithAmount getProducerById(@PathVariable(value = "id") Integer producerId) {
         LOGGER.debug("getProducerById({})", producerId);
         return producerService.getProducerById(producerId);
     }
 
     @RequestMapping(value = "/producer/name/{name}", method = RequestMethod.GET)
-    public @ResponseBody Producer getProducerByName(@PathVariable(value = "name") String name) {
+    public @ResponseBody ProducerWithAmount getProducerByName(@PathVariable(value = "name") String name) {
         LOGGER.debug("getProducerByName({})", name);
         return producerService.getProducerByName(name);
     }
 
     @RequestMapping(value = "/producer/car/{id}", method = RequestMethod.GET)
-    public @ResponseBody Producer getProducerByCar(@PathVariable(value = "id") Integer carId) {
+    public @ResponseBody ProducerWithAmount getProducerByCar(@PathVariable(value = "id") Integer carId) {
         LOGGER.debug("getProducerByCar({})", carId);
         return producerService.getProducerByCar(carId);
     }

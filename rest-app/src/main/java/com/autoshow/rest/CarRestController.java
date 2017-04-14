@@ -59,13 +59,13 @@ public class CarRestController {
     }
 
     @RequestMapping(value = "/car/{id}", method = RequestMethod.GET)
-    public @ResponseBody Car getCarById(@PathVariable(value = "id") Integer carId) {
+    public @ResponseBody CarWithProducerName getCarById(@PathVariable(value = "id") Integer carId) {
         LOGGER.debug("getCarById({})", carId);
         return carService.getCarById(carId);
     }
 
     @RequestMapping(value = "/car/model/{model}", method = RequestMethod.GET)
-    public @ResponseBody Car getCarByModel(@PathVariable(value = "model") String model) {
+    public @ResponseBody CarWithProducerName getCarByModel(@PathVariable(value = "model") String model) {
         LOGGER.debug("getCarByModel({})", model);
         return carService.getCarByModel(model);
     }

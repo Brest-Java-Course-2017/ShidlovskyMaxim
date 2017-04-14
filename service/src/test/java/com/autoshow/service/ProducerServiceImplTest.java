@@ -70,7 +70,7 @@ public class ProducerServiceImplTest {
     public void getProducerByIdTest() throws Exception {
         LOGGER.debug("test: getProducerById()");
         int testId = 1;
-        Producer testProducer = producerService.getProducerById(testId);
+        ProducerWithAmount testProducer = producerService.getProducerById(testId);
         Assert.assertNotNull(testProducer);
         Assert.assertTrue(testProducer.getProducerId() == testId);
     }
@@ -79,7 +79,7 @@ public class ProducerServiceImplTest {
     public void getProducerByNameTest() throws Exception {
         LOGGER.debug("test: getProducerByName()");
         String testName = "BMW";
-        Producer testProducer = producerService.getProducerByName(testName);
+        ProducerWithAmount testProducer = producerService.getProducerByName(testName);
         Assert.assertNotNull(testProducer);
         Assert.assertTrue(testProducer.getName().equals(testName));
     }
@@ -88,7 +88,7 @@ public class ProducerServiceImplTest {
     public void getProducerByCarTest() throws Exception {
         LOGGER.debug("test: getProducerByCar()");
         Integer carId = 3;
-        Producer testProducer = producerService.getProducerByCar(carId);
+        ProducerWithAmount testProducer = producerService.getProducerByCar(carId);
         Assert.assertNotNull(testProducer);
         Assert.assertEquals((Integer) 2, testProducer.getProducerId());
         Assert.assertEquals("BMW", testProducer.getName());
@@ -99,7 +99,7 @@ public class ProducerServiceImplTest {
     public void addProducerTest() throws Exception {
         LOGGER.debug("test: addProducer()");
         producerService.addProducer(producer);
-        Producer addedProducer = producerService.getProducerByName(producer.getName());
+        ProducerWithAmount addedProducer = producerService.getProducerByName(producer.getName());
         Assert.assertEquals(producer.getName(), addedProducer.getName());
         Assert.assertEquals(producer.getCountry(), addedProducer.getCountry());
     }
@@ -107,12 +107,15 @@ public class ProducerServiceImplTest {
     @Test
     public void updateProducerTest() throws Exception {
         LOGGER.debug("test: updateProducer()");
-        Producer testProducer = producerService.getProducerById(1);
+        ProducerWithAmount testProducerWithAmount = producerService.getProducerById(1);
+        Producer testProducer = new Producer();
+        testProducer.setProducerId(testProducerWithAmount.getProducerId());
         testProducer.setName("Updated name");
         testProducer.setCountry("Updated country");
         producerService.updateProducer(testProducer);
-        Producer updatedProducer = producerService.getProducerById(1);
-        Assert.assertEquals(testProducer, updatedProducer);
+        ProducerWithAmount updatedProducer = producerService.getProducerById(1);
+        Assert.assertEquals(testProducer.getName(), updatedProducer.getName());
+        Assert.assertEquals(testProducer.getCountry(), updatedProducer.getCountry());
     }
 
     @Test

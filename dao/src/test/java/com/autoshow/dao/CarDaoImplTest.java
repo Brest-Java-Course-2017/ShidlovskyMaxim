@@ -90,7 +90,7 @@ public class CarDaoImplTest {
     @Test
     public void getCarByIdTest() throws Exception {
         LOGGER.debug("test: getCarById()");
-        Car car = carDao.getCarById(1);
+        CarWithProducerName car = carDao.getCarById(1);
         Assert.assertNotNull(car);
         Assert.assertEquals("S500", car.getModel());
     }
@@ -98,7 +98,7 @@ public class CarDaoImplTest {
     @Test
     public void getCarByModelTest() throws Exception {
         LOGGER.debug("test: getCarByModel()");
-        Car car = carDao.getCarByModel("E220");
+        CarWithProducerName car = carDao.getCarByModel("E220");
         Assert.assertNotNull(car);
         Assert.assertEquals((Integer) 2, car.getCarId());
     }
@@ -112,7 +112,7 @@ public class CarDaoImplTest {
         Integer carId = carDao.addCar(testCar);
         Assert.assertNotNull(carId);
 
-        Car newCar = carDao.getCarById(carId);
+        CarWithProducerName newCar = carDao.getCarById(carId);
         Assert.assertNotNull(newCar);
         Assert.assertTrue(testCar.getModel().equals(newCar.getModel()));
         Assert.assertTrue(testCar.getReleaseDate().equals(newCar.getReleaseDate()));
@@ -126,16 +126,18 @@ public class CarDaoImplTest {
     @Test
     public void updateCarTest() throws Exception {
         LOGGER.debug("test: updateCar()");
-        Car car = carDao.getCarById(1);
+        CarWithProducerName car = carDao.getCarById(1);
         car.setModel("Updated model");
         car.setReleaseDate(new Date(2, 2, 2017));
         car.setAmount(200);
         car.setProducerId(1);
 
-        Integer amountOfUpdatedRecords = carDao.updateCar(car);
+        Car testCar = new Car(car.getCarId(), car.getModel(), car.getReleaseDate(),
+                car.getAmount(), car.getProducerId());
+        Integer amountOfUpdatedRecords = carDao.updateCar(testCar);
         Assert.assertEquals(1, amountOfUpdatedRecords.intValue());
 
-        Car updatedCar = carDao.getCarById(car.getCarId());
+        CarWithProducerName updatedCar = carDao.getCarById(car.getCarId());
         Assert.assertEquals(car.getModel(), updatedCar.getModel());
         Assert.assertEquals(car.getReleaseDate(), updatedCar.getReleaseDate());
         Assert.assertEquals(car.getAmount(), updatedCar.getAmount());

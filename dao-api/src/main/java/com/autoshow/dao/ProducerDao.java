@@ -33,7 +33,7 @@ public interface ProducerDao {
      * @return A producer.
      * @throws DataAccessException
      */
-    public Producer getProducerById(Integer producerId) throws DataAccessException;
+    public ProducerWithAmount getProducerById(Integer producerId) throws DataAccessException;
 
     /**
      * Get a producer by name.
@@ -42,7 +42,7 @@ public interface ProducerDao {
      * @return A producer.
      * @throws DataAccessException
      */
-    public Producer getProducerByName(String name) throws DataAccessException;
+    public ProducerWithAmount getProducerByName(String name) throws DataAccessException;
 
     /**
      * Get a producer by particular car.
@@ -51,7 +51,7 @@ public interface ProducerDao {
      * @return A producer which produced the car.
      * @throws DataAccessException
      */
-    public Producer getProducerByCar(Integer carId) throws DataAccessException;
+    public ProducerWithAmount getProducerByCar(Integer carId) throws DataAccessException;
 
     /**
      * Add a producer.

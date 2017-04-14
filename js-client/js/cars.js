@@ -27,6 +27,7 @@ $('#btnClean').click(function () {
     $("#model").val("");
     $("#releaseDate").val("");
     $("#amount").val("");
+    $("#producerId").val("");
 });
 
 $('#btnFilter').click(function () {

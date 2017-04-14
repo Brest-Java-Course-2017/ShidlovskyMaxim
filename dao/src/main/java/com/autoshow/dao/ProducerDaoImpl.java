@@ -77,32 +77,30 @@ public class ProducerDaoImpl implements ProducerDao {
     }
 
     @Override
-    public Producer getProducerById(Integer producerId) throws DataAccessException {
+    public ProducerWithAmount getProducerById(Integer producerId) throws DataAccessException {
         LOGGER.debug("getProducerById({})", producerId);
         SqlParameterSource namedParameters =
                 new MapSqlParameterSource("p_producer_id", producerId);
-        Producer producer = namedParameterJdbcTemplate.queryForObject(
-                getProducerByIdSql, namedParameters, new ProducerRowMapper());
-        return producer;
+        return namedParameterJdbcTemplate.queryForObject(
+                getProducerByIdSql, namedParameters, new ProducerWithAmountRowMapper());
     }
 
     @Override
-    public Producer getProducerByName(String name) throws DataAccessException {
+    public ProducerWithAmount getProducerByName(String name) throws DataAccessException {
         LOGGER.debug("getProducerByName({})", name);
         SqlParameterSource namedParameters =
                 new MapSqlParameterSource("p_producer_name", name);
-        Producer producer = namedParameterJdbcTemplate.queryForObject(
-                getProducerByNameSql, namedParameters, new ProducerRowMapper());
-        return producer;
+        return namedParameterJdbcTemplate.queryForObject(
+                getProducerByNameSql, namedParameters, new ProducerWithAmountRowMapper());
     }
 
     @Override
-    public Producer getProducerByCar(Integer carId) throws DataAccessException {
+    public ProducerWithAmount getProducerByCar(Integer carId) throws DataAccessException {
         LOGGER.debug("getProducerByCar(carId = {})", carId);
         SqlParameterSource namedParameters =
                 new MapSqlParameterSource("p_car_id", carId);
         return namedParameterJdbcTemplate.queryForObject(
-                getProducerByCarSql, namedParameters, new ProducerRowMapper());
+                getProducerByCarSql, namedParameters, new ProducerWithAmountRowMapper());
     }
 
     @Override

@@ -52,6 +52,8 @@ public class ProducerControllerMockTest {
     private ProducerService mockProducerService;
 
     private Producer producer = new Producer(1, "testName", "testCountry");
+    private ProducerWithAmount producerWithAmount =
+            new ProducerWithAmount(1, "testName", "testCountry", 1);
 
     @Before
     public void setUp() {
@@ -98,13 +100,14 @@ public class ProducerControllerMockTest {
     @Test
     public void getProducerByIdTest() throws Exception {
         LOGGER.debug("test: getProducerById()");
-        expect(mockProducerService.getProducerById(producer.getProducerId())).andReturn(producer);
+        expect(mockProducerService.getProducerById(producerWithAmount.getProducerId()))
+                .andReturn(producerWithAmount);
         replay(mockProducerService);
 
-        String producerString = new ObjectMapper().writeValueAsString(producer);
+        String producerString = new ObjectMapper().writeValueAsString(producerWithAmount);
 
         mockMvc.perform(
-                get("/producer/" + producer.getProducerId())
+                get("/producer/" + producerWithAmount.getProducerId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print())
@@ -115,13 +118,14 @@ public class ProducerControllerMockTest {
     @Test
     public void getProducerByNameTest() throws Exception {
         LOGGER.debug("test: getProducerByName()");
-        expect(mockProducerService.getProducerByName(producer.getName())).andReturn(producer);
+        expect(mockProducerService.getProducerByName(producerWithAmount.getName()))
+                .andReturn(producerWithAmount);
         replay(mockProducerService);
 
-        String producerString = new ObjectMapper().writeValueAsString(producer);
+        String producerString = new ObjectMapper().writeValueAsString(producerWithAmount);
 
         mockMvc.perform(
-                get("/producer/name/" + producer.getName())
+                get("/producer/name/" + producerWithAmount.getName())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print())
@@ -132,7 +136,7 @@ public class ProducerControllerMockTest {
     @Test
     public void getProducerByCarTest() throws Exception {
         LOGGER.debug("test: getProducerByCar()");
-        expect(mockProducerService.getProducerByCar(anyObject(Integer.class))).andReturn(producer);
+        expect(mockProducerService.getProducerByCar(anyObject(Integer.class))).andReturn(producerWithAmount);
         replay(mockProducerService);
 
         mockMvc.perform(

@@ -51,7 +51,7 @@ public interface CarDao {
      * @return A car.
      * @throws DataAccessException
      */
-    public Car getCarById(Integer carId) throws DataAccessException;
+    public CarWithProducerName getCarById(Integer carId) throws DataAccessException;
 
     /**
      * Get a cat by model.
@@ -60,7 +60,7 @@ public interface CarDao {
      * @return A car.
      * @throws DataAccessException
      */
-    public Car getCarByModel(String model) throws DataAccessException;
+    public CarWithProducerName getCarByModel(String model) throws DataAccessException;
 
     /**
      * Add a car.

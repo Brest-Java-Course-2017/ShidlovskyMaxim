@@ -31,6 +31,8 @@ public class ProducerServiceImplMockTest {
 
     private static final Producer producer =
             new Producer(null, "testName2", "testCountry");
+    private static final ProducerWithAmount producerWithAmount =
+            new ProducerWithAmount(null, "testName2", "testCountry", 1);
 
     @Autowired
     private ProducerService producerService;
@@ -84,23 +86,23 @@ public class ProducerServiceImplMockTest {
     @Test
     public void getProducerByCarTest() throws Exception {
         LOGGER.debug("mockTest: getProducerByCar()");
-        EasyMock.expect(mockProducerDao.getProducerByCar(1)).andReturn(producer);
+        EasyMock.expect(mockProducerDao.getProducerByCar(1)).andReturn(producerWithAmount);
         EasyMock.replay(mockProducerDao);
-        Producer receivedProducer = producerService.getProducerByCar(1);
+        ProducerWithAmount receivedProducer = producerService.getProducerByCar(1);
         Assert.assertNotNull(receivedProducer);
-        Assert.assertEquals(producer.getProducerId(), receivedProducer.getProducerId());
-        Assert.assertEquals(producer.getName(), receivedProducer.getName());
-        Assert.assertEquals(producer.getCountry(), receivedProducer.getCountry());
+        Assert.assertEquals(producerWithAmount.getProducerId(), receivedProducer.getProducerId());
+        Assert.assertEquals(producerWithAmount.getName(), receivedProducer.getName());
+        Assert.assertEquals(producerWithAmount.getCountry(), receivedProducer.getCountry());
     }
 
     @Test
     public void addProducerTest() throws Exception {
         LOGGER.debug("mockTest: addProducer()");
         EasyMock.expect(mockProducerDao.addProducer(producer)).andReturn(6);
-        EasyMock.expect(mockProducerDao.getProducerById(6)).andReturn(producer);
+        EasyMock.expect(mockProducerDao.getProducerById(6)).andReturn(producerWithAmount);
         EasyMock.replay(mockProducerDao);
         Integer newId = producerService.addProducer(producer);
-        Producer addedProducer = producerService.getProducerById(newId);
+        ProducerWithAmount addedProducer = producerService.getProducerById(newId);
         Assert.assertEquals(producer.getName(), addedProducer.getName());
         Assert.assertEquals(producer.getCountry(), addedProducer.getCountry());
     }

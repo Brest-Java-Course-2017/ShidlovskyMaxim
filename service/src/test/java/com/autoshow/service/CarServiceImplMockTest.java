@@ -123,11 +123,13 @@ public class CarServiceImplMockTest {
         LOGGER.debug("mockTest: addCar()");
         Car testCar = new Car(null, "testModel",
                 new Date(100, 1, 1), 12, 1);
+        CarWithProducerName carWithName = new CarWithProducerName(null, "testModel",
+                new Date(100, 1, 1), 12, 1, "testName");
         EasyMock.expect(mockCarDao.addCar(testCar)).andReturn(6);
-        EasyMock.expect(mockCarDao.getCarById(6)).andReturn(testCar);
+        EasyMock.expect(mockCarDao.getCarById(6)).andReturn(carWithName);
         EasyMock.replay(mockCarDao);
         Integer newId = carService.addCar(testCar);
-        Car adderCar = carService.getCarById(newId);
+        CarWithProducerName adderCar = carService.getCarById(newId);
         Assert.assertEquals(testCar.getModel(), adderCar.getModel());
         Assert.assertEquals(testCar.getReleaseDate(), adderCar.getReleaseDate());
         Assert.assertEquals(testCar.getAmount(), adderCar.getAmount());

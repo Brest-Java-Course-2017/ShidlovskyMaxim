@@ -43,14 +43,14 @@ public class ProducerServiceImpl implements ProducerService {
     }
 
     @Override
-    public Producer getProducerById(Integer producerId) throws DataAccessException {
+    public ProducerWithAmount getProducerById(Integer producerId) throws DataAccessException {
         LOGGER.debug("getProducerById({})", producerId);
         Assert.notNull(producerId, "Producer's ID mustn't be null.");
         return producerDao.getProducerById(producerId);
     }
 
     @Override
-    public Producer getProducerByName(String name) throws DataAccessException {
+    public ProducerWithAmount getProducerByName(String name) throws DataAccessException {
         LOGGER.debug("getProducerByName({})", name);
         Assert.notNull(name, "Producer's name mustn't be null.");
         Assert.hasText(name, "Producer's name must have text.");
@@ -58,7 +58,7 @@ public class ProducerServiceImpl implements ProducerService {
     }
 
     @Override
-    public Producer getProducerByCar(Integer carId) throws DataAccessException {
+    public ProducerWithAmount getProducerByCar(Integer carId) throws DataAccessException {
         LOGGER.debug("getProducerByCar(carId = {})", carId);
         Assert.notNull(carId, "Car's ID mustn't be null.");
         return producerDao.getProducerByCar(carId);

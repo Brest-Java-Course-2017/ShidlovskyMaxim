@@ -59,14 +59,14 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car getCarById(Integer carId) throws DataAccessException {
+    public CarWithProducerName getCarById(Integer carId) throws DataAccessException {
         LOGGER.debug("getCarById({})", carId);
         Assert.notNull(carId, "Car's ID mustn't be null.");
         return carDao.getCarById(carId);
     }
 
     @Override
-    public Car getCarByModel(String model) throws DataAccessException {
+    public CarWithProducerName getCarByModel(String model) throws DataAccessException {
         LOGGER.debug("getCarByModel({})", model);
         Assert.notNull(model, "Car's model mustn't be null.");
         Assert.hasText(model, "Car's model must have text.");

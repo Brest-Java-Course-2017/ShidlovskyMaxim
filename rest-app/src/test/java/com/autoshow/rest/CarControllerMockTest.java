@@ -132,10 +132,10 @@ public class CarControllerMockTest {
     @Test
     public void getCarByIdTest() throws Exception {
         LOGGER.debug("test: getCarById()");
-        expect(mockCarService.getCarById(anyObject(Integer.class))).andReturn(car);
+        expect(mockCarService.getCarById(anyObject(Integer.class))).andReturn(carWithProducerName);
         replay(mockCarService);
 
-        String carString = new ObjectMapper().writeValueAsString(car);
+        String carString = new ObjectMapper().writeValueAsString(carWithProducerName);
 
         mockMvc.perform(
                 get("/car/" + car.getCarId())
@@ -150,10 +150,10 @@ public class CarControllerMockTest {
     @Test
     public void getCarByModelTest() throws Exception {
         LOGGER.debug("test: getCarByModel()");
-        expect(mockCarService.getCarByModel(anyObject(String.class))).andReturn(car);
+        expect(mockCarService.getCarByModel(anyObject(String.class))).andReturn(carWithProducerName);
         replay(mockCarService);
 
-        String carString = new ObjectMapper().writeValueAsString(car);
+        String carString = new ObjectMapper().writeValueAsString(carWithProducerName);
 
         mockMvc.perform(
                 get("/car/model/" + car.getModel())
